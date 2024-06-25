@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Button" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/yellow</item>
+        <item name="rippleColor">@color/white</item>
+        <item name="android:textAppearance">@style/TextAppearance.Material3.BodyLarge</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusBottomEnd">@dimen/corner_rad_text_input</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/corner_rad_text_input</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/corner_rad_text_input</item>
+        <item name="boxCornerRadiusTopStart">@dimen/corner_rad_text_input</item>
+        <item name="helperTextEnabled">true</item>
+        <item name="helperTextTextAppearance">@style/TextAppearance.Material3.LabelMedium</item>
+        <item name="hintTextAppearance">@style/TextAppearance.Material3.BodyLarge</item>
+        <item name="hintTextColor">@color/yellow</item>
+        <item name="cursorColor">@color/white</item>
+        <item name="passwordToggleTint">@color/white</item>
+    </style>
+
+    <style name="TextInputEditText" parent="Widget.Material3.TextInputEditText.OutlinedBox">
+        <item name="android:textAppearance">@style/TextAppearance.Material3.BodyLarge</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+</resources>

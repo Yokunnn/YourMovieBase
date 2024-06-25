@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="corner_rad_text_input">20dp</dimen>
+    <dimen name="padding_auth_container">20dp</dimen>
+    <dimen name="margin_auth_btns">16dp</dimen>
+</resources>
