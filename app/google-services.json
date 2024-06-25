@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "812128678201",
+    "project_id": "yourmoviebase-a80d2",
+    "storage_bucket": "yourmoviebase-a80d2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:812128678201:android:c28f40ad62fb9b7a0cb8e8",
+        "android_client_info": {
+          "package_name": "ru.zakablukov.yourmoviebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAc6HmFSXmr9GBu0w7u8AOa_M45u3JiyJw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
