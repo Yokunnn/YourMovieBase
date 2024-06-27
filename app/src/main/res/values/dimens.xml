@@ -3,4 +3,7 @@
     <dimen name="corner_rad_text_input">20dp</dimen>
     <dimen name="padding_auth_container">20dp</dimen>
     <dimen name="margin_auth_btns">16dp</dimen>
+    <dimen name="padding_item_rating">4dp</dimen>
+    <dimen name="height_gallery_item">140dp</dimen>
+    <dimen name="padding_movie_item">4dp</dimen>
 </resources>
