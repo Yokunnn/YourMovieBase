@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -18,9 +20,19 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val secretProperties = Properties()
+        secretProperties.load(project.rootProject.file("secrets.properties").inputStream())
+
+        buildConfigField(
+            "String",
+            "X_API_KEY",
+            "\"${secretProperties["X_API_KEY"] as String}\""
+        )
     }
 
     buildFeatures {
+        buildConfig = true
         viewBinding = true
     }
     buildTypes {
@@ -67,4 +79,16 @@ dependencies {
 
     //Firebase
     implementation(libs.firebase.auth)
+
+    //Gson
+    implementation(libs.gson)
+
+    //OkHttp
+    implementation(libs.okhttp)
+    implementation(libs.okhttp3.logging.interceptor)
+
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit2.converter.gson)
+    implementation(libs.retrofit2.adapter.rxjava3)
 }
