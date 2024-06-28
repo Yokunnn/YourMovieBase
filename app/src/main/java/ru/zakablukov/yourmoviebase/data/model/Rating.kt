@@ -4,9 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Rating(
     @SerializedName("kp")
-    val kinopoiskRating: Int,
+    val kinopoiskRating: Double,
     @SerializedName("imdb")
-    val imdbRating: Int,
-    @SerializedName("tmdb")
-    val tmdbRating: Int
+    val imdbRating: Double
 )

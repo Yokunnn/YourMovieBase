@@ -8,6 +8,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.zakablukov.yourmoviebase.BuildConfig
 import javax.inject.Singleton
 
 @Module
@@ -27,6 +28,13 @@ object NetworkModule {
     @Provides
     fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor) = OkHttpClient.Builder()
         .addInterceptor(httpLoggingInterceptor)
+        .addInterceptor { chain ->
+            val request = chain.request().newBuilder()
+                .addHeader("accept", "application/json")
+                .addHeader("X-API-KEY", BuildConfig.X_API_KEY)
+                .build()
+            chain.proceed(request)
+        }
         .build()
 
     @Singleton
