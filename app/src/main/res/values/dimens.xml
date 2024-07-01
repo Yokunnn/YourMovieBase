@@ -6,4 +6,7 @@
     <dimen name="padding_item_rating">4dp</dimen>
     <dimen name="height_gallery_item">140dp</dimen>
     <dimen name="padding_movie_item">4dp</dimen>
+    <dimen name="padding_movie_details">20dp</dimen>
+    <dimen name="height_gradient_movie_details">140dp</dimen>
+    <dimen name="height_movie_details_appbar">400dp</dimen>
 </resources>

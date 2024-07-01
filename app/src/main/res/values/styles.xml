@@ -25,6 +25,12 @@
         <item name="android:textAppearance">@style/TextAppearance.Material3.BodyLarge</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
+    <style name="SubtitleTextView">
+        <item name="android:textAppearance">@style/TextAppearance.Material3.TitleMedium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/yellow</item>
+    </style>
     
     <style name="PosterStyle">
         <item name="cornerFamilyTopLeft">rounded</item>

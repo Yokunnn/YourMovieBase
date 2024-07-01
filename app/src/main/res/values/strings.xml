@@ -7,4 +7,8 @@
     <string name="helper_email">Enter your email address</string>
     <string name="helper_password">Enter password</string>
     <string name="filler_movie_title">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu.</string>
+    <string name="text_description">Description</string>
+    <string name="filler_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris lacus nisi, placerat eget purus nec, gravida volutpat mauris. Etiam sapien est, tristique eu ex quis, suscipit venenatis tortor. Aenean quis risus erat. Donec vulputate tempor erat nec finibus. In blandit et metus vehicula ultricies. Nulla bibendum fringilla orci, at varius nunc eleifend ac. Phasellus semper magna eget augue tempus dictum. Proin purus odio, interdum vel risus ut, fringilla gravida arcu. Maecenas at volutpat felis. Pellentesque rhoncus mattis varius. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Ut in tempor est. Suspendisse sed orci vel turpis porttitor aliquet.</string>
+    <string name="text_length">Length</string>
+    <string name="text_age_rating">Age rating</string>
 </resources>
