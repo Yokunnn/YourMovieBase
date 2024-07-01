@@ -11,14 +11,19 @@ interface GalleryService {
         @Query("page") page: Int,
         @Query("limit") limit: Int,
         @Query("notNullFields") notNullFields: List<String> = listOf(
-            "enName",
+            "alternativeName",
             "poster.url"
         ),
         @Query("sortField") sortField: List<String> = listOf(
-            "rating.imdb"
+            "rating.imdb",
+            "rating.kp"
         ),
         @Query("sortType") sortType: List<String> = listOf(
+            "-1",
             "-1"
+        ),
+        @Query("type") type: List<String> = listOf(
+            "movie"
         )
     ): MoviesResponse
 }
