@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import ru.zakablukov.yourmoviebase.data.util.LoadState
+import ru.zakablukov.yourmoviebase.presentation.enums.LoadState
 import ru.zakablukov.yourmoviebase.databinding.FragmentGalleryBinding
 import ru.zakablukov.yourmoviebase.presentation.adapter.GalleryAdapter
 import ru.zakablukov.yourmoviebase.presentation.viewmodel.GalleryViewModel

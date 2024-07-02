@@ -1,4 +1,4 @@
-package ru.zakablukov.yourmoviebase.data.util
+package ru.zakablukov.yourmoviebase.presentation.enums
 
 enum class LoadState {
     LOADING,

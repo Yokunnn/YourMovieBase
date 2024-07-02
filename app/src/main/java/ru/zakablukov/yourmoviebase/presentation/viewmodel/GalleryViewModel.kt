@@ -7,7 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.zakablukov.yourmoviebase.data.repositoryimpl.GalleryRepositoryImpl
-import ru.zakablukov.yourmoviebase.data.util.LoadState
+import ru.zakablukov.yourmoviebase.presentation.enums.LoadState
 import ru.zakablukov.yourmoviebase.data.util.Request
 import ru.zakablukov.yourmoviebase.domain.model.Movie
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package ru.zakablukov.yourmoviebase.data.di
+package ru.zakablukov.yourmoviebase.di
 
 import dagger.Module
 import dagger.Provides
@@ -9,6 +9,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.zakablukov.yourmoviebase.BuildConfig
+import ru.zakablukov.yourmoviebase.data.service.GalleryService
 import javax.inject.Singleton
 
 @Module
@@ -44,4 +45,9 @@ object NetworkModule {
         .baseUrl(BASE_URL)
         .client(okHttpClient)
         .build()
+
+    @Singleton
+    @Provides
+    fun provideGalleryService(retrofit: Retrofit): GalleryService =
+        retrofit.create(GalleryService::class.java)
 }
