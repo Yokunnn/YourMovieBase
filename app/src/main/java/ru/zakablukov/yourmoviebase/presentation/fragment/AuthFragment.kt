@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -18,20 +19,19 @@ import ru.zakablukov.yourmoviebase.databinding.FragmentAuthBinding
 @AndroidEntryPoint
 class AuthFragment : Fragment() {
 
-    private lateinit var binding: FragmentAuthBinding
-    private lateinit var auth: FirebaseAuth
+    private val binding by viewBinding(FragmentAuthBinding::bind)
+    private var auth: FirebaseAuth? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentAuthBinding.inflate(inflater, container, false)
         auth = Firebase.auth
-        auth.currentUser?.let {
+        auth?.currentUser?.let {
             findNavController().navigate(R.id.action_authFragment_to_galleryFragment)
         }
 
-        return binding.root
+        return inflater.inflate(R.layout.fragment_auth, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,8 +45,8 @@ class AuthFragment : Fragment() {
         binding.loginButton.setOnClickListener {
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
-            auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
+            auth?.signInWithEmailAndPassword(email, password)
+                ?.addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Log.d("Firebase auth", "user successfully signed in")
                         findNavController().navigate(R.id.action_authFragment_to_galleryFragment)
@@ -66,8 +66,8 @@ class AuthFragment : Fragment() {
         binding.registerButton.setOnClickListener {
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
-            auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
+            auth?.createUserWithEmailAndPassword(email, password)
+                ?.addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Log.d("Firebase register", "user successfully registered")
                         findNavController().navigate(R.id.action_authFragment_to_galleryFragment)

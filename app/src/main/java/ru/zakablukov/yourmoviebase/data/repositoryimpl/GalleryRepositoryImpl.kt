@@ -1,7 +1,7 @@
 package ru.zakablukov.yourmoviebase.data.repositoryimpl
 
 import kotlinx.coroutines.flow.Flow
-import ru.zakablukov.yourmoviebase.data.mapper.mapToDomain
+import ru.zakablukov.yourmoviebase.data.mapper.toDomain
 import ru.zakablukov.yourmoviebase.data.service.GalleryService
 import ru.zakablukov.yourmoviebase.data.util.Request
 import ru.zakablukov.yourmoviebase.data.util.RequestUtils.requestFlow
@@ -16,7 +16,7 @@ class GalleryRepositoryImpl @Inject constructor(
     override suspend fun getMovies(page: Int, limit: Int): Flow<Request<List<Movie>>> {
         return requestFlow {
             val movies = galleryService.getMovies(page, limit)
-            movies.mapToDomain()
+            movies.toDomain()
         }
     }
 }

@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import ru.zakablukov.yourmoviebase.R
 import ru.zakablukov.yourmoviebase.presentation.enums.LoadState
 import ru.zakablukov.yourmoviebase.databinding.FragmentGalleryBinding
 import ru.zakablukov.yourmoviebase.presentation.adapter.GalleryAdapter
@@ -18,17 +20,16 @@ import ru.zakablukov.yourmoviebase.presentation.viewmodel.GalleryViewModel
 @AndroidEntryPoint
 class GalleryFragment : Fragment() {
 
-    private lateinit var binding: FragmentGalleryBinding
+    private val binding by viewBinding(FragmentGalleryBinding::bind)
     private val viewModel: GalleryViewModel by viewModels()
-    private lateinit var galleryAdapter: GalleryAdapter
+    private var galleryAdapter: GalleryAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentGalleryBinding.inflate(layoutInflater)
         galleryAdapter = GalleryAdapter()
-        return binding.root
+        return inflater.inflate(R.layout.fragment_gallery, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,7 +52,7 @@ class GalleryFragment : Fragment() {
 
     private fun observeMoviesResult() {
         viewModel.moviesResult.observe(viewLifecycleOwner) { movies ->
-            galleryAdapter.update(movies.toMutableList())
+            galleryAdapter?.update(movies.toMutableList())
         }
     }
 
