@@ -10,6 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.zakablukov.yourmoviebase.BuildConfig
 import ru.zakablukov.yourmoviebase.data.service.GalleryService
+import ru.zakablukov.yourmoviebase.data.service.MovieDetailsService
 import javax.inject.Singleton
 
 @Module
@@ -50,4 +51,9 @@ object NetworkModule {
     @Provides
     fun provideGalleryService(retrofit: Retrofit): GalleryService =
         retrofit.create(GalleryService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideMovieDetailsService(retrofit: Retrofit): MovieDetailsService =
+        retrofit.create(MovieDetailsService::class.java)
 }
