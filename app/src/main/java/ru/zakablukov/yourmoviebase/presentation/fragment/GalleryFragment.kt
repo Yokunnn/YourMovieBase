@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,20 +26,30 @@ class GalleryFragment : Fragment() {
     private var galleryAdapter: GalleryAdapter? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        galleryAdapter = GalleryAdapter()
         return inflater.inflate(R.layout.fragment_gallery, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initGalleryAdapter()
         initRecyclerView()
 
         observeMoviesResult()
         observeMoviesLoadState()
+    }
+
+    private fun initGalleryAdapter() {
+        galleryAdapter = GalleryAdapter() { movie ->
+            val bundle = Bundle().apply {
+                putInt(ID, movie.id)
+            }
+            findNavController().navigate(
+                R.id.action_galleryFragment_to_movieDetailsFragment, bundle
+            )
+        }
     }
 
     private fun initRecyclerView() {
@@ -60,27 +71,28 @@ class GalleryFragment : Fragment() {
         viewModel.moviesLoadState.observe(viewLifecycleOwner) { loadState ->
             when (loadState) {
                 LoadState.LOADING -> {
-                    Log.d("Movies loading", "loading")
+                    Log.d(LOAD_TAG, "loading")
                 }
 
                 LoadState.SUCCESS -> {
-                    Log.d("Movies loading", "success")
+                    Log.d(LOAD_TAG, "success")
                     Toast.makeText(
-                        context,
-                        "Movies successfully loaded",
-                        Toast.LENGTH_SHORT
+                        context, "Movies successfully loaded", Toast.LENGTH_SHORT
                     ).show()
                 }
 
                 LoadState.ERROR -> {
-                    Log.d("Movies loading", "error")
+                    Log.d(LOAD_TAG, "error")
                     Toast.makeText(
-                        context,
-                        "Error while loading",
-                        Toast.LENGTH_SHORT
+                        context, "Error while loading", Toast.LENGTH_SHORT
                     ).show()
                 }
             }
         }
+    }
+
+    companion object {
+        private const val ID = "id"
+        private const val LOAD_TAG = "Movies loading"
     }
 }

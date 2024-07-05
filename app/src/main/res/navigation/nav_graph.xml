@@ -27,5 +27,9 @@
         android:id="@+id/movieDetailsFragment"
         android:name="ru.zakablukov.yourmoviebase.presentation.fragment.MovieDetailsFragment"
         android:label="fragment_movie_details"
-        tools:layout="@layout/fragment_movie_details" />
+        tools:layout="@layout/fragment_movie_details" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 </navigation>

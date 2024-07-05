@@ -27,6 +27,11 @@ interface GalleryService {
 
         private val DEFAULT_NOT_NULL_FIELDS = listOf(
             "alternativeName",
+            "year",
+            "description",
+            "movieLength",
+            "ageRating",
+            "genres.name",
             "poster.url"
         )
         private val DEFAULT_SORT_FIELD = listOf(

@@ -7,7 +7,9 @@ import com.bumptech.glide.Glide
 import ru.zakablukov.yourmoviebase.databinding.ItemGalleryMovieBinding
 import ru.zakablukov.yourmoviebase.domain.model.Movie
 
-class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() {
+class GalleryAdapter(
+    private val onItemClicked: (Movie) -> Unit
+) : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() {
 
     private var items: MutableList<Movie> = emptyList<Movie>().toMutableList()
 
@@ -17,6 +19,12 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() 
         val posterImageView = binding.posterImageView
         val nameTextView = binding.nameTextView
         val ratingTextView = binding.ratingTextView
+
+        init {
+            itemView.setOnClickListener {
+                onItemClicked(items[adapterPosition])
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GalleryViewHolder {
