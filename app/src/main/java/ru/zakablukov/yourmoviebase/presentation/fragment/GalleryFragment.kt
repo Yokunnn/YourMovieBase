@@ -8,10 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import ru.zakablukov.yourmoviebase.R
 import ru.zakablukov.yourmoviebase.presentation.enums.LoadState
 import ru.zakablukov.yourmoviebase.databinding.FragmentGalleryBinding
@@ -62,30 +66,43 @@ class GalleryFragment : Fragment() {
     }
 
     private fun observeMoviesResult() {
-        viewModel.moviesResult.observe(viewLifecycleOwner) { movies ->
-            galleryAdapter?.update(movies.toMutableList())
+        with(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.moviesResult.collect { movies ->
+                        movies?.let {
+                            galleryAdapter?.update(it.toMutableList())
+                        }
+                    }
+                }
+            }
         }
     }
 
     private fun observeMoviesLoadState() {
-        viewModel.moviesLoadState.observe(viewLifecycleOwner) { loadState ->
-            when (loadState) {
-                LoadState.LOADING -> {
-                    Log.d(LOAD_TAG, "loading")
-                }
+        with(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.moviesLoadState.collect { loadState ->
+                        when (loadState) {
+                            LoadState.LOADING -> Log.d(LOAD_TAG, "loading")
+                            LoadState.SUCCESS -> {
+                                Log.d(LOAD_TAG, "success")
+                                Toast.makeText(
+                                    context, "Movies successfully loaded", Toast.LENGTH_SHORT
+                                ).show()
+                            }
 
-                LoadState.SUCCESS -> {
-                    Log.d(LOAD_TAG, "success")
-                    Toast.makeText(
-                        context, "Movies successfully loaded", Toast.LENGTH_SHORT
-                    ).show()
-                }
+                            LoadState.ERROR -> {
+                                Log.d(LOAD_TAG, "error")
+                                Toast.makeText(
+                                    context, "Error while loading", Toast.LENGTH_SHORT
+                                ).show()
+                            }
 
-                LoadState.ERROR -> {
-                    Log.d(LOAD_TAG, "error")
-                    Toast.makeText(
-                        context, "Error while loading", Toast.LENGTH_SHORT
-                    ).show()
+                            null -> Log.d(LOAD_TAG, "init")
+                        }
+                    }
                 }
             }
         }
