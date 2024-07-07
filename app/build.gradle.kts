@@ -97,4 +97,7 @@ dependencies {
 
     //Glide
     implementation(libs.glide)
+
+    //Paging
+    implementation(libs.androidx.paging.runtime.ktx)
 }

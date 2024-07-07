@@ -108,10 +108,11 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun createChip(info: String): Chip {
-        val chip = Chip(context)
-        chip.text = info
-        chip.isCheckable = false
-        chip.isClickable = false
+        val chip = Chip(context).apply {
+            text = info
+            isCheckable = false
+            isClickable = false
+        }
         return chip
     }
 

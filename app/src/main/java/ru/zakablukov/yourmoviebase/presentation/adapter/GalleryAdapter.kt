@@ -2,16 +2,16 @@ package ru.zakablukov.yourmoviebase.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ru.zakablukov.yourmoviebase.databinding.ItemGalleryMovieBinding
 import ru.zakablukov.yourmoviebase.domain.model.Movie
+import ru.zakablukov.yourmoviebase.presentation.adapter.itemcallback.MovieDiffCallback
 
 class GalleryAdapter(
-    private val onItemClicked: (Movie) -> Unit
-) : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() {
-
-    private var items: MutableList<Movie> = emptyList<Movie>().toMutableList()
+    private val onItemClicked: (Movie?) -> Unit
+) : PagingDataAdapter<Movie, GalleryAdapter.GalleryViewHolder>(MovieDiffCallback()) {
 
     inner class GalleryViewHolder(
         binding: ItemGalleryMovieBinding
@@ -22,7 +22,7 @@ class GalleryAdapter(
 
         init {
             itemView.setOnClickListener {
-                onItemClicked(items[adapterPosition])
+                onItemClicked(getItem(bindingAdapterPosition))
             }
         }
     }
@@ -34,20 +34,13 @@ class GalleryAdapter(
         return GalleryViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = items.size
-
     override fun onBindViewHolder(holder: GalleryViewHolder, position: Int) {
-        val data = items[position]
+        val data = getItem(position)
 
         with(holder) {
-            nameTextView.text = data.name
-            ratingTextView.text = data.rating.toString()
-            Glide.with(posterImageView.context).load(data.posterUrl).into(posterImageView)
+            nameTextView.text = data?.name
+            ratingTextView.text = data?.rating.toString()
+            Glide.with(posterImageView.context).load(data?.posterUrl).into(posterImageView)
         }
-    }
-
-    fun update(data: MutableList<Movie>) {
-        items.addAll(data)
-        notifyItemRangeInserted(items.size - 1, data.size)
     }
 }

@@ -17,7 +17,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.zakablukov.yourmoviebase.R
-import ru.zakablukov.yourmoviebase.presentation.enums.LoadState
 import ru.zakablukov.yourmoviebase.databinding.FragmentGalleryBinding
 import ru.zakablukov.yourmoviebase.presentation.adapter.GalleryAdapter
 import ru.zakablukov.yourmoviebase.presentation.viewmodel.GalleryViewModel
@@ -42,17 +41,29 @@ class GalleryFragment : Fragment() {
         initRecyclerView()
 
         observeMoviesResult()
-        observeMoviesLoadState()
     }
 
     private fun initGalleryAdapter() {
         galleryAdapter = GalleryAdapter() { movie ->
             val bundle = Bundle().apply {
-                putInt(ID, movie.id)
+                movie?.let { putInt(ID, it.id) }
             }
             findNavController().navigate(
                 R.id.action_galleryFragment_to_movieDetailsFragment, bundle
             )
+        }.apply {
+            addLoadStateListener { loadState ->
+                when (loadState.source.refresh) {
+                    is androidx.paging.LoadState.Error -> {
+                        Log.d(LOAD_TAG, "error")
+                        Toast.makeText(
+                            context, "Error while loading", Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    androidx.paging.LoadState.Loading -> Log.d(LOAD_TAG, "loading")
+                    is androidx.paging.LoadState.NotLoading -> Log.d(LOAD_TAG, "not loading")
+                }
+            }
         }
     }
 
@@ -60,8 +71,6 @@ class GalleryFragment : Fragment() {
         with(binding.galleryRecyclerView) {
             layoutManager = LinearLayoutManager(context)
             adapter = galleryAdapter
-
-            viewModel.getMovies(1, 10)
         }
     }
 
@@ -71,36 +80,7 @@ class GalleryFragment : Fragment() {
                 lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.moviesResult.collect { movies ->
                         movies?.let {
-                            galleryAdapter?.update(it.toMutableList())
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun observeMoviesLoadState() {
-        with(viewLifecycleOwner) {
-            lifecycleScope.launch {
-                lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.moviesLoadState.collect { loadState ->
-                        when (loadState) {
-                            LoadState.LOADING -> Log.d(LOAD_TAG, "loading")
-                            LoadState.SUCCESS -> {
-                                Log.d(LOAD_TAG, "success")
-                                Toast.makeText(
-                                    context, "Movies successfully loaded", Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                            LoadState.ERROR -> {
-                                Log.d(LOAD_TAG, "error")
-                                Toast.makeText(
-                                    context, "Error while loading", Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                            null -> Log.d(LOAD_TAG, "init")
+                            galleryAdapter?.submitData(movies)
                         }
                     }
                 }
