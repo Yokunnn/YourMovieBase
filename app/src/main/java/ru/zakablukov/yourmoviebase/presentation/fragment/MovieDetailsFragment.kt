@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 import ru.zakablukov.yourmoviebase.R
 import ru.zakablukov.yourmoviebase.databinding.FragmentMovieDetailsBinding
 import ru.zakablukov.yourmoviebase.presentation.enums.LoadState
+import ru.zakablukov.yourmoviebase.presentation.util.TextUtils
 import ru.zakablukov.yourmoviebase.presentation.viewmodel.MovieDetailsViewModel
 
 @AndroidEntryPoint
@@ -59,12 +60,12 @@ class MovieDetailsFragment : Fragment() {
                             movieNameTextView.text = movie?.name
                             yearValueTextView.text = movie?.year.toString()
                             descriptionTextView.text = movie?.description
-                            lengthValueTextView.text = movie?.length.toString()
-                            ageRatingValueTextView.text = movie?.ageRating.toString()
+                            lengthValueTextView.text = TextUtils.getLengthString(movie?.length)
+                            ageRatingValueTextView.text = TextUtils.getAgeRatingString(movie?.ageRating)
                             movie?.genres?.forEach {
                                 genreChipGroup.addView(createChip(it))
                             }
-                            ratingValueTextView.text = movie?.rating.toString()
+                            ratingValueTextView.text = TextUtils.getRatingString(movie?.rating)
                             Glide.with(posterImageView.context).load(movie?.posterUrl)
                                 .into(posterImageView)
                         }
