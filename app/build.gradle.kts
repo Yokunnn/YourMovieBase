@@ -100,4 +100,7 @@ dependencies {
 
     //Paging
     implementation(libs.androidx.paging.runtime.ktx)
+
+    //Google Play services
+    implementation(libs.play.services.auth)
 }
