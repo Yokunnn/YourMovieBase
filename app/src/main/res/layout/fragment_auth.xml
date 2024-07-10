@@ -63,4 +63,14 @@
         android:text="@string/text_register"
         app:layout_constraintTop_toBottomOf="@id/loginButton" />
 
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/googleSignInButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_auth_btns"
+        app:buttonSize="wide"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/registerButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

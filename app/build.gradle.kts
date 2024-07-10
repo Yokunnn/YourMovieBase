@@ -29,6 +29,11 @@ android {
             "X_API_KEY",
             "\"${secretProperties["X_API_KEY"] as String}\""
         )
+        buildConfigField(
+            "String",
+            "WEB_CLIENT_ID",
+            "\"${secretProperties["WEB_CLIENT_ID"] as String}\""
+        )
     }
 
     buildFeatures {
@@ -103,4 +108,9 @@ dependencies {
 
     //Google Play services
     implementation(libs.play.services.auth)
+
+    //Credentials
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
 }

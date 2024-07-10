@@ -1,5 +1,6 @@
 package ru.zakablukov.yourmoviebase.data.repositoryimpl
 
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.Flow
@@ -29,6 +30,13 @@ class AuthRepositoryImpl @Inject constructor(
     ): Flow<Request<AuthResult>> {
         return requestFlow {
             val authResult = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
+            authResult
+        }
+    }
+
+    override suspend fun signInWithGoogle(credential: AuthCredential): Flow<Request<AuthResult>> {
+        return requestFlow {
+            val authResult = firebaseAuth.signInWithCredential(credential).await()
             authResult
         }
     }

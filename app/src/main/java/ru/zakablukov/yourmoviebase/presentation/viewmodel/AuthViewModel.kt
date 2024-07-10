@@ -2,6 +2,7 @@ package ru.zakablukov.yourmoviebase.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.AuthCredential
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,6 +22,8 @@ class AuthViewModel @Inject constructor(
     val signInLoadState: StateFlow<LoadState?> = _signInLoadState
     private val _registerLoadState = MutableStateFlow<LoadState?>(null)
     val registerLoadState: StateFlow<LoadState?> = _registerLoadState
+    private val _signInGoogleLoadState = MutableStateFlow<LoadState?>(null)
+    val signInGoogleLoadState: StateFlow<LoadState?> = _signInGoogleLoadState
 
     fun signInWithEmailAndPassword(email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -41,6 +44,18 @@ class AuthViewModel @Inject constructor(
                     is Request.Error -> _registerLoadState.emit(LoadState.ERROR)
                     is Request.Loading -> _registerLoadState.emit(LoadState.LOADING)
                     is Request.Success -> _registerLoadState.emit(LoadState.SUCCESS)
+                }
+            }
+        }
+    }
+
+    fun signInWithGoogle(credential: AuthCredential) {
+        viewModelScope.launch(Dispatchers.IO) {
+            authRepositoryImpl.signInWithGoogle(credential).collect { requestState ->
+                when(requestState){
+                    is Request.Error -> _signInGoogleLoadState.emit(LoadState.ERROR)
+                    is Request.Loading -> _signInGoogleLoadState.emit(LoadState.LOADING)
+                    is Request.Success -> _signInGoogleLoadState.emit(LoadState.SUCCESS)
                 }
             }
         }

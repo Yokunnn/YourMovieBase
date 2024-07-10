@@ -12,7 +12,20 @@
           "package_name": "ru.zakablukov.yourmoviebase"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "812128678201-gubcc9it7je3l0r07fk2irjr7cjp3pal.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.zakablukov.yourmoviebase",
+            "certificate_hash": "ef984b2591e9fa27809fb1c455065c32b6c1dfad"
+          }
+        },
+        {
+          "client_id": "812128678201-qu3s88lqlflh2gmc8jpq07962vqrggq4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAc6HmFSXmr9GBu0w7u8AOa_M45u3JiyJw"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "812128678201-qu3s88lqlflh2gmc8jpq07962vqrggq4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
