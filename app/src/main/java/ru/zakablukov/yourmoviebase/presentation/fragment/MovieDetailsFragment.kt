@@ -18,6 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.zakablukov.yourmoviebase.R
 import ru.zakablukov.yourmoviebase.databinding.FragmentMovieDetailsBinding
+import ru.zakablukov.yourmoviebase.domain.model.TranslateText
 import ru.zakablukov.yourmoviebase.presentation.enums.LoadState
 import ru.zakablukov.yourmoviebase.presentation.util.TextUtils
 import ru.zakablukov.yourmoviebase.presentation.viewmodel.MovieDetailsViewModel
@@ -42,6 +43,8 @@ class MovieDetailsFragment : Fragment() {
 
         observeMovieDetailsResult()
         observeMovieDetailsLoadState()
+        observeTranslatedTextResult()
+        observeTranslatedTextLoadState()
     }
 
     private fun requestForMovie() {
@@ -62,12 +65,15 @@ class MovieDetailsFragment : Fragment() {
                             descriptionTextView.text = movie?.description
                             lengthValueTextView.text = TextUtils.getLengthString(movie?.length)
                             ageRatingValueTextView.text = TextUtils.getAgeRatingString(movie?.ageRating)
-                            movie?.genres?.forEach {
-                                genreChipGroup.addView(createChip(it))
-                            }
                             ratingValueTextView.text = TextUtils.getRatingString(movie?.rating)
                             Glide.with(posterImageView.context).load(movie?.posterUrl)
                                 .into(posterImageView)
+                        }
+                        movie?.genres?.forEach {
+                            viewModel.translateRUtoEN(TranslateText(GENRE, it))
+                        }
+                        movie?.let {
+                            viewModel.translateRUtoEN(TranslateText(DESCRIPTION, it.description))
                         }
                     }
                 }
@@ -108,6 +114,54 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
+    private fun observeTranslatedTextResult() {
+        with(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.translatedTextResult.collect { translateText ->
+                        when (translateText?.type) {
+                            GENRE -> binding.genreChipGroup.addView(createChip(translateText.text))
+                            DESCRIPTION -> binding.descriptionTextView.text = translateText.text
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeTranslatedTextLoadState() {
+        with(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.translatedTextLoadState.collect { loadState ->
+                        when (loadState) {
+                            LoadState.LOADING -> Log.d(TRANSLATION_TAG, "translating")
+                            LoadState.SUCCESS -> {
+                                Log.d(TRANSLATION_TAG, "success translation")
+                                Toast.makeText(
+                                    context,
+                                    "Text successfully translated",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            LoadState.ERROR -> {
+                                Log.d(TRANSLATION_TAG, "error translation")
+                                Toast.makeText(
+                                    context,
+                                    "Error while translating text",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            null -> Log.d(TRANSLATION_TAG, "init")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private fun createChip(info: String): Chip {
         val chip = Chip(context).apply {
             text = info
@@ -120,5 +174,8 @@ class MovieDetailsFragment : Fragment() {
     companion object {
         private const val ID = "id"
         private const val LOAD_TAG = "Details loaded"
+        private const val TRANSLATION_TAG = "Text translation"
+        private const val DESCRIPTION = "Description"
+        private const val GENRE = "Genre"
     }
 }
