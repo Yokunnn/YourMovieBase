@@ -6,7 +6,7 @@ import ru.zakablukov.yourmoviebase.domain.model.Person
 fun PersonResponse.toDomain(): Person =
     Person(
         id,
-        enName,
+        enName?.let { enName } ?: name.orEmpty(),
         enProfession,
         photoUrl
     )

@@ -120,7 +120,7 @@ class MovieDetailsFragment : Fragment() {
                 lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.translatedTextResult.collect { translateText ->
                         when (translateText?.type) {
-                            GENRE -> binding.genreChipGroup.addView(createChip(translateText.text))
+                            GENRE -> binding.genreChipGroup.addView(createChip(translateText.text.lowercase()))
                             DESCRIPTION -> binding.descriptionTextView.text = translateText.text
                         }
                     }

@@ -8,9 +8,9 @@ data class PersonResponse(
     @SerializedName("photo")
     val photoUrl: String,
     @SerializedName("name")
-    val name: String,
+    val name: String?,
     @SerializedName("enName")
-    val enName: String,
+    val enName: String?,
     @SerializedName("profession")
     val profession: String,
     @SerializedName("enProfession")
