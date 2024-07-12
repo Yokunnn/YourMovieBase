@@ -10,6 +10,7 @@ interface GalleryService {
     suspend fun getMovies(
         @Query(QUERY_PAGE) page: Int,
         @Query(QUERY_LIMIT) limit: Int,
+        @Query(QUERY_SELECT_FIELDS) selectFields: List<String> = DEFAULT_SELECT_FIELDS,
         @Query(QUERY_NOT_NULL_FIELDS) notNullFields: List<String> = DEFAULT_NOT_NULL_FIELDS,
         @Query(QUERY_SORT_FIELD) sortField: List<String> = DEFAULT_SORT_FIELD,
         @Query(QUERY_SORT_TYPE) sortType: List<String> = DEFAULT_SORT_TYPE,
@@ -20,11 +21,23 @@ interface GalleryService {
         private const val GET_MOVIES_REQUEST = "v1.4/movie"
         private const val QUERY_PAGE = "page"
         private const val QUERY_LIMIT = "limit"
+        private const val QUERY_SELECT_FIELDS = "selectFields"
         private const val QUERY_NOT_NULL_FIELDS = "notNullFields"
         private const val QUERY_SORT_FIELD = "sortField"
         private const val QUERY_SORT_TYPE = "sortType"
         private const val QUERY_TYPE = "type"
 
+        private val DEFAULT_SELECT_FIELDS = listOf(
+            "id",
+            "alternativeName",
+            "year",
+            "description",
+            "movieLength",
+            "ageRating",
+            "genres",
+            "rating",
+            "poster"
+        )
         private val DEFAULT_NOT_NULL_FIELDS = listOf(
             "alternativeName",
             "year",
