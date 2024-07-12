@@ -13,5 +13,6 @@ fun SingleMovieResponse.toDomain(): Movie =
         ageRating,
         genres.map { it.name },
         rating.imdbRating,
-        poster.url
+        poster.url,
+        persons.map { it.toDomain() }
     )

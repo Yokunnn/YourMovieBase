@@ -20,5 +20,7 @@ data class SingleMovieResponse(
     @SerializedName("rating")
     val rating: Rating,
     @SerializedName("poster")
-    val poster: Poster
+    val poster: Poster,
+    @SerializedName("persons")
+    val persons: List<PersonResponse>
 )

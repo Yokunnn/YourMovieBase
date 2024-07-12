@@ -9,5 +9,6 @@ data class Movie(
     val ageRating: Int,
     val genres: List<String>,
     val rating: Double,
-    val posterUrl: String
+    val posterUrl: String,
+    val persons: List<Person>
 )
