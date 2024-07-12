@@ -19,7 +19,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -37,17 +36,13 @@ class AuthFragment : Fragment() {
     private var credentialManager: CredentialManager? = null
 
     @Inject
-    lateinit var auth: FirebaseAuth
-
-    @Inject
     lateinit var googleCredentialRequest: GetCredentialRequest
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        auth.currentUser?.let {
-            findNavController().navigate(R.id.action_authFragment_to_galleryFragment)
-        }
+        viewModel.getCurrentUser()
+        observeCurrentUser()
         credentialManager = CredentialManager.create(requireContext())
 
         return inflater.inflate(R.layout.fragment_auth, container, false)
@@ -105,6 +100,20 @@ class AuthFragment : Fragment() {
             viewModel.signInWithGoogle(firebaseCredential)
         } else {
             Log.d(CREDENTIAL_TAG, "Unexpected type of credential")
+        }
+    }
+
+    private fun observeCurrentUser() {
+        with(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.userResult.collect { user ->
+                        user?.let {
+                            findNavController().navigate(R.id.action_authFragment_to_galleryFragment)
+                        }
+                    }
+                }
+            }
         }
     }
 
