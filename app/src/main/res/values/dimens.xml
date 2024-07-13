@@ -15,4 +15,8 @@
     <dimen name="dimen_item_person_small">100dp</dimen>
     <dimen name="padding_item_person_small">8dp</dimen>
     <dimen name="margin_vertical_item_person_small">4dp</dimen>
+    <dimen name="margin_filter_button">16dp</dimen>
+    <dimen name="padding_filters_sheet_horizontal">20dp</dimen>
+    <dimen name="padding_filters_sheet_vertical">8dp</dimen>
+    <dimen name="margin_filter_items">8dp</dimen>
 </resources>

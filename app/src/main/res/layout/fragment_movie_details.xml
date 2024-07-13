@@ -67,7 +67,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/ratingValueTextView"
-                style="@style/RatingTextView"
+                style="@style/BodyLargeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@id/ratingStarImageView"
@@ -84,7 +84,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lengthTextView"
-                style="@style/SubtitleTextView"
+                style="@style/TitleMediumTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_vertical_details"
@@ -94,7 +94,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lengthValueTextView"
-                style="@style/DetailsTextView"
+                style="@style/BodyMediumTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="@id/lengthTextView"
@@ -103,7 +103,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/ageRatingTextView"
-                style="@style/SubtitleTextView"
+                style="@style/TitleMediumTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_horizontal_details"
@@ -113,7 +113,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/ageRatingValueTextView"
-                style="@style/DetailsTextView"
+                style="@style/BodyMediumTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="@id/ageRatingTextView"
@@ -122,7 +122,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/yearTextView"
-                style="@style/SubtitleTextView"
+                style="@style/TitleMediumTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_horizontal_details"
@@ -132,7 +132,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/yearValueTextView"
-                style="@style/DetailsTextView"
+                style="@style/BodyMediumTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="@id/yearTextView"
@@ -141,7 +141,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/descriptionTitleTextView"
-                style="@style/SubtitleTextView"
+                style="@style/TitleMediumTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_vertical_details"
@@ -151,7 +151,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/descriptionTextView"
-                style="@style/DetailsTextView"
+                style="@style/BodyMediumTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/descriptionTitleTextView"
@@ -159,7 +159,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/actorsTextView"
-                style="@style/SubtitleTextView"
+                style="@style/TitleMediumTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_vertical_details"

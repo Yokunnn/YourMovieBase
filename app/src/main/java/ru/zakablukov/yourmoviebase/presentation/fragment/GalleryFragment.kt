@@ -37,10 +37,17 @@ class GalleryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initFilterButton()
         initGalleryAdapter()
         initRecyclerView()
 
         observeMoviesResult()
+    }
+
+    private fun initFilterButton() {
+        binding.filterButton.setOnClickListener {
+            findNavController().navigate(R.id.action_galleryFragment_to_filterBottomSheetFragment)
+        }
     }
 
     private fun initGalleryAdapter() {

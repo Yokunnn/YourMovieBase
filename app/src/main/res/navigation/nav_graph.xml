@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_galleryFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
+        <action
+            android:id="@+id/action_galleryFragment_to_filterBottomSheetFragment"
+            app:destination="@id/filterBottomSheetFragment" />
     </fragment>
     <fragment
         android:id="@+id/movieDetailsFragment"
@@ -34,4 +37,9 @@
             android:name="id"
             app:argType="integer" />
     </fragment>
+    <dialog
+        android:id="@+id/filterBottomSheetFragment"
+        android:name="ru.zakablukov.yourmoviebase.presentation.fragment.FilterBottomSheetFragment"
+        android:label="fragment_filter_bottom_sheet"
+        tools:layout="@layout/fragment_filter_bottom_sheet" />
 </navigation>

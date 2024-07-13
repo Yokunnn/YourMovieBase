@@ -26,18 +26,24 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="SubtitleTextView">
+    <style name="TitleMediumTextView">
         <item name="android:textAppearance">@style/TextAppearance.Material3.TitleMedium</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/yellow</item>
     </style>
 
-    <style name="DetailsTextView">
+    <style name="TitleLargeTextView">
+        <item name="android:textAppearance">@style/TextAppearance.Material3.TitleLarge</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/yellow</item>
+    </style>
+
+    <style name="BodyMediumTextView">
         <item name="android:textAppearance">@style/TextAppearance.Material3.BodyMedium</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="RatingTextView">
+    <style name="BodyLargeTextView">
         <item name="android:textAppearance">@style/TextAppearance.Material3.BodyLarge</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">bold</item>

@@ -17,4 +17,14 @@
     <string name="filler_year">2024</string>
     <string name="text_actors">Actors</string>
     <string name="filler_person_name">Matthew McConaughey</string>
+    <string name="text_filters">Filters</string>
+    <string name="text_genres">Genres</string>
+    <string name="text_rating">Rating</string>
+    <string name="text_apply">Apply</string>
+    <string name="text_reset_all">Reset all</string>
+    <string name="text_length_filter">Length filter</string>
+    <string name="helper_length">Example: 100–120 (in minutes)</string>
+    <string name="helper_year">Example: 1874, 2050, 2020–2024</string>
+    <string name="text_year_filter">Year filter</string>
+    <string name="description_filter">filter</string>
 </resources>
