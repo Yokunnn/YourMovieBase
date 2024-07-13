@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
@@ -19,6 +20,7 @@ import kotlinx.coroutines.launch
 import ru.zakablukov.yourmoviebase.R
 import ru.zakablukov.yourmoviebase.databinding.FragmentMovieDetailsBinding
 import ru.zakablukov.yourmoviebase.domain.model.TranslateText
+import ru.zakablukov.yourmoviebase.presentation.adapter.PersonAdapterSmall
 import ru.zakablukov.yourmoviebase.presentation.enums.LoadState
 import ru.zakablukov.yourmoviebase.presentation.util.TextUtils
 import ru.zakablukov.yourmoviebase.presentation.viewmodel.MovieDetailsViewModel
@@ -28,23 +30,33 @@ class MovieDetailsFragment : Fragment() {
 
     private val binding by viewBinding(FragmentMovieDetailsBinding::bind)
     private val viewModel: MovieDetailsViewModel by viewModels()
+    private var personAdapter: PersonAdapterSmall? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        personAdapter = PersonAdapterSmall()
         return inflater.inflate(R.layout.fragment_movie_details, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initActorsRecyclerView()
         requestForMovie()
 
         observeMovieDetailsResult()
         observeMovieDetailsLoadState()
         observeTranslatedTextResult()
         observeTranslatedTextLoadState()
+    }
+
+    private fun initActorsRecyclerView() {
+        with(binding.actorsRecyclerView) {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = personAdapter
+        }
     }
 
     private fun requestForMovie() {
@@ -69,11 +81,12 @@ class MovieDetailsFragment : Fragment() {
                             Glide.with(posterImageView.context).load(movie?.posterUrl)
                                 .into(posterImageView)
                         }
-                        movie?.genres?.forEach {
-                            viewModel.translateRUtoEN(TranslateText(GENRE, it))
-                        }
                         movie?.let {
+                            it.genres.forEach { genre ->
+                                viewModel.translateRUtoEN(TranslateText(GENRE, genre))
+                            }
                             viewModel.translateRUtoEN(TranslateText(DESCRIPTION, it.description))
+                            personAdapter?.update(it.persons.toMutableList())
                         }
                     }
                 }

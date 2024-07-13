@@ -15,4 +15,6 @@
     <string name="filler_age_rating">18+</string>
     <string name="text_year">Year</string>
     <string name="filler_year">2024</string>
+    <string name="text_actors">Actors</string>
+    <string name="filler_person_name">Matthew McConaughey</string>
 </resources>

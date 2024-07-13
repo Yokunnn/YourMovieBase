@@ -14,5 +14,5 @@ fun SingleMovieResponse.toDomain(): Movie =
         genres.map { it.name },
         rating.imdbRating,
         poster.url,
-        persons.map { it.toDomain() }
+        persons.filter { it.enProfession == "actor" }.map { it.toDomain() }
     )

@@ -157,6 +157,22 @@
                 app:layout_constraintTop_toBottomOf="@id/descriptionTitleTextView"
                 tools:text="@string/filler_description" />
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/actorsTextView"
+                style="@style/SubtitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_vertical_details"
+                android:text="@string/text_actors"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/descriptionTextView" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/actorsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/actorsTextView"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
