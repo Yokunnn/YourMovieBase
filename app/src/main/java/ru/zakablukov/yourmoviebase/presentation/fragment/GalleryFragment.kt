@@ -7,11 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +26,9 @@ import ru.zakablukov.yourmoviebase.presentation.viewmodel.GalleryViewModel
 class GalleryFragment : Fragment() {
 
     private val binding by viewBinding(FragmentGalleryBinding::bind)
-    private val viewModel: GalleryViewModel by viewModels()
+    private val viewModel by navGraphViewModels<GalleryViewModel>(R.id.nav_graph) {
+        defaultViewModelProviderFactory
+    }
     private var galleryAdapter: GalleryAdapter? = null
 
     override fun onCreateView(
@@ -41,6 +44,7 @@ class GalleryFragment : Fragment() {
         initGalleryAdapter()
         initRecyclerView()
 
+        observeFilterData()
         observeMoviesResult()
     }
 
@@ -89,6 +93,19 @@ class GalleryFragment : Fragment() {
                         movies?.let {
                             galleryAdapter?.submitData(movies)
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeFilterData() {
+        with(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.filterData.collect {
+                        galleryAdapter?.submitData(PagingData.empty())
+                        viewModel.refreshMovies()
                     }
                 }
             }
