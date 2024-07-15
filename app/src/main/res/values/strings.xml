@@ -27,4 +27,7 @@
     <string name="helper_year">Example: 1874, 2050, 2020–2024</string>
     <string name="text_year_filter">Year filter</string>
     <string name="description_filter">filter</string>
+    <string name="util_age_rating">%1$d+</string>
+    <string name="util_rating">%1$.1f/10 IMDb</string>
+    <string name="util_length">%1$dh %2$dmin</string>
 </resources>

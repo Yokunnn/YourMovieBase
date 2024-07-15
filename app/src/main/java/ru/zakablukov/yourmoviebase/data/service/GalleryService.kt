@@ -35,6 +35,7 @@ interface GalleryService {
 
         private val DEFAULT_SELECT_FIELDS = listOf(
             "id",
+            "name",
             "alternativeName",
             "year",
             "description",
@@ -46,6 +47,7 @@ interface GalleryService {
             "persons"
         )
         private val DEFAULT_NOT_NULL_FIELDS = listOf(
+            "name",
             "alternativeName",
             "year",
             "description",
@@ -53,6 +55,7 @@ interface GalleryService {
             "ageRating",
             "genres.name",
             "poster.url",
+            "persons.enName"
         )
         private val DEFAULT_SORT_FIELD = listOf(
             "rating.imdb",

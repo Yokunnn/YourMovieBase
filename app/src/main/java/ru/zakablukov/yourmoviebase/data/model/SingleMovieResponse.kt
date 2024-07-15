@@ -5,8 +5,10 @@ import com.google.gson.annotations.SerializedName
 data class SingleMovieResponse(
     @SerializedName("id")
     val id: Int,
-    @SerializedName("alternativeName")
+    @SerializedName("name")
     val name: String,
+    @SerializedName("alternativeName")
+    val altName: String,
     @SerializedName("year")
     val year: Int,
     @SerializedName("description")

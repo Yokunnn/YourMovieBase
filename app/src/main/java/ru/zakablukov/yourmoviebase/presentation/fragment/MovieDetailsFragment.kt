@@ -22,8 +22,8 @@ import ru.zakablukov.yourmoviebase.databinding.FragmentMovieDetailsBinding
 import ru.zakablukov.yourmoviebase.domain.model.TranslateText
 import ru.zakablukov.yourmoviebase.presentation.adapter.PersonAdapterSmall
 import ru.zakablukov.yourmoviebase.presentation.enums.LoadState
-import ru.zakablukov.yourmoviebase.presentation.util.TextUtils
 import ru.zakablukov.yourmoviebase.presentation.viewmodel.MovieDetailsViewModel
+import java.util.Locale
 
 @AndroidEntryPoint
 class MovieDetailsFragment : Fragment() {
@@ -75,18 +75,39 @@ class MovieDetailsFragment : Fragment() {
                             movieNameTextView.text = movie?.name
                             yearValueTextView.text = movie?.year.toString()
                             descriptionTextView.text = movie?.description
-                            lengthValueTextView.text = TextUtils.getLengthString(movie?.length)
-                            ageRatingValueTextView.text = TextUtils.getAgeRatingString(movie?.ageRating)
-                            ratingValueTextView.text = TextUtils.getRatingString(movie?.rating)
+                            lengthValueTextView.text = requireContext().getString(
+                                R.string.util_length,
+                                movie?.length?.div(60),
+                                movie?.length?.mod(60)
+                            )
+                            ageRatingValueTextView.text = requireContext().getString(
+                                R.string.util_age_rating,
+                                movie?.ageRating
+                            )
+                            ratingValueTextView.text = requireContext().getString(
+                                R.string.util_rating,
+                                movie?.rating
+                            )
                             Glide.with(posterImageView.context).load(movie?.posterUrl)
                                 .into(posterImageView)
-                        }
-                        movie?.let {
-                            it.genres.forEach { genre ->
-                                viewModel.translateRUtoEN(TranslateText(GENRE, genre))
+                            movie?.let {
+                                it.genres.forEach { genre ->
+                                    if (Locale.getDefault().language != "ru") {
+                                        viewModel.translateRUtoEN(TranslateText(GENRE, genre))
+                                    } else {
+                                        genreChipGroup.addView(createChip(genre))
+                                    }
+                                }
+                                if (Locale.getDefault().language != "ru") {
+                                    viewModel.translateRUtoEN(
+                                        TranslateText(
+                                            DESCRIPTION,
+                                            it.description
+                                        )
+                                    )
+                                }
+                                personAdapter?.update(it.persons.toMutableList())
                             }
-                            viewModel.translateRUtoEN(TranslateText(DESCRIPTION, it.description))
-                            personAdapter?.update(it.persons.toMutableList())
                         }
                     }
                 }

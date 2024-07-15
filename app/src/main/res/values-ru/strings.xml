@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">YourMovieBase</string>
+    <string name="text_login">Войти</string>
+    <string name="text_register">Зарегитрироваться</string>
+    <string name="text_password">Пароль</string>
+    <string name="text_email">Эл. почта</string>
+    <string name="helper_email">Введите адрес электронной почты</string>
+    <string name="helper_password">Введите пароль</string>
+    <string name="filler_movie_title">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu.</string>
+    <string name="text_description">Описание</string>
+    <string name="filler_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris lacus nisi, placerat eget purus nec, gravida volutpat mauris. Etiam sapien est, tristique eu ex quis, suscipit venenatis tortor. Aenean quis risus erat. Donec vulputate tempor erat nec finibus. In blandit et metus vehicula ultricies. Nulla bibendum fringilla orci, at varius nunc eleifend ac. Phasellus semper magna eget augue tempus dictum. Proin purus odio, interdum vel risus ut, fringilla gravida arcu. Maecenas at volutpat felis. Pellentesque rhoncus mattis varius. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Ut in tempor est. Suspendisse sed orci vel turpis porttitor aliquet.</string>
+    <string name="text_length">Длина</string>
+    <string name="text_age_rating">Возраст</string>
+    <string name="filler_length">2ч 28мин</string>
+    <string name="filler_age_rating">18+</string>
+    <string name="text_year">Год выхода</string>
+    <string name="filler_year">2024</string>
+    <string name="text_actors">Актёры</string>
+    <string name="filler_person_name">Мэттью Макконахи</string>
+    <string name="text_filters">Фильтры</string>
+    <string name="text_genres">Жанры</string>
+    <string name="text_rating">Рейтинг</string>
+    <string name="text_apply">Применить</string>
+    <string name="text_reset_all">Сбросить все</string>
+    <string name="text_length_filter">Фильтр по длине фильма</string>
+    <string name="helper_length">Например: 100–120 (в минутах)</string>
+    <string name="helper_year">Например: 1874, 2050, 2020–2024</string>
+    <string name="text_year_filter">Фильтр по году выхода</string>
+    <string name="description_filter">фильтр</string>
+    <string name="util_age_rating">%1$d+</string>
+    <string name="util_rating">%1$.1f/10 IMDb</string>
+    <string name="util_length">%1$dч %2$dмин</string>
+</resources>
