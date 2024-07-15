@@ -73,4 +73,10 @@ class AuthViewModel @Inject constructor(
             }
         }
     }
+
+    fun requestEmailVerification() {
+        viewModelScope.launch(Dispatchers.IO) {
+            authRepositoryImpl.requestEmailVerification()
+        }
+    }
 }

@@ -16,5 +16,7 @@ interface AuthRepository {
 
     suspend fun getCurrentUser(): Flow<Request<FirebaseUser?>>
 
+    suspend fun requestEmailVerification(): Flow<Request<Unit>>
+
     suspend fun signOut(): Flow<Request<Unit>>
 }

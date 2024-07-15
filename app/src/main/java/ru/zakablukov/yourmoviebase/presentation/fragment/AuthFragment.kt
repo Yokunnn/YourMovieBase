@@ -109,6 +109,7 @@ class AuthFragment : Fragment() {
                 lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.userResult.collect { user ->
                         user?.let {
+                            viewModel.requestEmailVerification()
                             findNavController().navigate(R.id.action_authFragment_to_galleryFragment)
                         }
                     }
@@ -130,6 +131,7 @@ class AuthFragment : Fragment() {
                             }
                             LoadState.SUCCESS -> {
                                 Log.d(SIGN_IN_TAG, "user successfully signed in")
+                                viewModel.requestEmailVerification()
                                 findNavController().navigate(R.id.action_authFragment_to_galleryFragment)
                             }
 
@@ -163,6 +165,7 @@ class AuthFragment : Fragment() {
                             }
                             LoadState.SUCCESS -> {
                                 Log.d(REGISTER_TAG, "user successfully registered")
+                                viewModel.requestEmailVerification()
                                 findNavController().navigate(R.id.action_authFragment_to_galleryFragment)
                             }
 
@@ -192,6 +195,7 @@ class AuthFragment : Fragment() {
                             LoadState.LOADING -> Log.d(SIGN_IN_GOOGLE_TAG, "loading")
                             LoadState.SUCCESS -> {
                                 Log.d(SIGN_IN_GOOGLE_TAG, "user successfully signed in with google")
+                                viewModel.requestEmailVerification()
                                 findNavController().navigate(R.id.action_authFragment_to_galleryFragment)
                             }
 

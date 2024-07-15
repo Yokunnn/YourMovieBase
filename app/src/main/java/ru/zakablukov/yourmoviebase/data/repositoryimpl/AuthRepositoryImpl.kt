@@ -48,6 +48,16 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun requestEmailVerification(): Flow<Request<Unit>> {
+        return requestFlow {
+            firebaseAuth.currentUser?.let { user ->
+                if (!user.isEmailVerified) {
+                    user.sendEmailVerification()
+                }
+            }
+        }
+    }
+
     override suspend fun signOut(): Flow<Request<Unit>> {
         return requestFlow {
             firebaseAuth.signOut()
