@@ -71,8 +71,20 @@ class GalleryFragment : Fragment() {
                             context, "Error while loading", Toast.LENGTH_SHORT
                         ).show()
                     }
-                    androidx.paging.LoadState.Loading -> Log.d(LOAD_TAG, "loading")
-                    is androidx.paging.LoadState.NotLoading -> Log.d(LOAD_TAG, "not loading")
+
+                    androidx.paging.LoadState.Loading -> {
+                        Log.d(LOAD_TAG, "loading")
+                        binding.galleryProgressIndicator.visibility = View.VISIBLE
+                    }
+
+                    is androidx.paging.LoadState.NotLoading -> {
+                        Log.d(LOAD_TAG, "not loading")
+                        if (!loadState.append.endOfPaginationReached ||
+                            galleryAdapter?.itemCount?.compareTo(1) != -1
+                        ) {
+                            binding.galleryProgressIndicator.visibility = View.GONE
+                        }
+                    }
                 }
             }
         }

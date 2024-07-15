@@ -13,8 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_filter_button"
         android:backgroundTint="@color/yellow"
-        android:src="@drawable/icon_filter"
         android:contentDescription="@string/description_filter"
+        android:src="@drawable/icon_filter"
         app:layout_constraintBottom_toTopOf="@id/galleryRecyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -26,5 +26,14 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filterButton" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/galleryProgressIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/galleryRecyclerView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

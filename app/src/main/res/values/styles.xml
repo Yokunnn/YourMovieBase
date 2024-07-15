@@ -60,4 +60,10 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">8dp</item>
     </style>
+
+    <style name="ButtonProgressIndicatorStyle">
+        <item name="android:indeterminate">true</item>
+        <item name="indicatorColor">@color/black</item>
+        <item name="android:visibility">gone</item>
+    </style>
 </resources>

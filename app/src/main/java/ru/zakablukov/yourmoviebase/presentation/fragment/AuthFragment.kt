@@ -123,7 +123,11 @@ class AuthFragment : Fragment() {
                 lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.signInLoadState.collect { loadState ->
                         when (loadState) {
-                            LoadState.LOADING -> Log.d(SIGN_IN_TAG, "loading")
+                            LoadState.LOADING -> {
+                                Log.d(SIGN_IN_TAG, "loading")
+                                binding.loginProgressIndicator.visibility = View.VISIBLE
+                                binding.loginButton.textScaleX = 0f
+                            }
                             LoadState.SUCCESS -> {
                                 Log.d(SIGN_IN_TAG, "user successfully signed in")
                                 findNavController().navigate(R.id.action_authFragment_to_galleryFragment)
@@ -131,6 +135,8 @@ class AuthFragment : Fragment() {
 
                             LoadState.ERROR -> {
                                 Log.d(SIGN_IN_TAG, "user auth failed")
+                                binding.loginProgressIndicator.visibility = View.GONE
+                                binding.loginButton.textScaleX = 1f
                                 Toast.makeText(
                                     context, "User authentication failed", Toast.LENGTH_SHORT
                                 ).show()
@@ -150,7 +156,11 @@ class AuthFragment : Fragment() {
                 lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.registerLoadState.collect { loadState ->
                         when (loadState) {
-                            LoadState.LOADING -> Log.d(REGISTER_TAG, "loading")
+                            LoadState.LOADING -> {
+                                Log.d(REGISTER_TAG, "loading")
+                                binding.registerProgressIndicator.visibility = View.VISIBLE
+                                binding.registerButton.textScaleX = 0f
+                            }
                             LoadState.SUCCESS -> {
                                 Log.d(REGISTER_TAG, "user successfully registered")
                                 findNavController().navigate(R.id.action_authFragment_to_galleryFragment)
@@ -158,6 +168,8 @@ class AuthFragment : Fragment() {
 
                             LoadState.ERROR -> {
                                 Log.d(REGISTER_TAG, "user registration failed")
+                                binding.registerProgressIndicator.visibility = View.GONE
+                                binding.registerButton.textScaleX = 1f
                                 Toast.makeText(
                                     context, "User registration failed", Toast.LENGTH_SHORT
                                 ).show()

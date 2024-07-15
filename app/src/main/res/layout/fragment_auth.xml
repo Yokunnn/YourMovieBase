@@ -55,6 +55,16 @@
         android:text="@string/text_login"
         app:layout_constraintTop_toBottomOf="@id/passwordInputLayout" />
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/loginProgressIndicator"
+        style="@style/ButtonProgressIndicatorStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/loginButton"
+        app:layout_constraintEnd_toEndOf="@id/loginButton"
+        app:layout_constraintStart_toStartOf="@id/loginButton"
+        app:layout_constraintTop_toTopOf="@id/loginButton" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/registerButton"
         style="@style/Button"
@@ -62,6 +72,16 @@
         android:layout_height="wrap_content"
         android:text="@string/text_register"
         app:layout_constraintTop_toBottomOf="@id/loginButton" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/registerProgressIndicator"
+        style="@style/ButtonProgressIndicatorStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/registerButton"
+        app:layout_constraintEnd_toEndOf="@id/registerButton"
+        app:layout_constraintStart_toStartOf="@id/registerButton"
+        app:layout_constraintTop_toTopOf="@id/registerButton" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/googleSignInButton"
