@@ -15,9 +15,10 @@
         android:backgroundTint="@color/yellow"
         android:contentDescription="@string/description_filter"
         android:src="@drawable/icon_filter"
-        app:layout_constraintBottom_toTopOf="@id/galleryRecyclerView"
+        android:tint="@color/black"
+        android:tintMode="multiply"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:rippleColor="@color/white" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -25,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filterButton" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/galleryProgressIndicator"

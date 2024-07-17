@@ -170,24 +170,8 @@ class MovieDetailsFragment : Fragment() {
                     viewModel.translatedTextLoadState.collect { loadState ->
                         when (loadState) {
                             LoadState.LOADING -> Log.d(TRANSLATION_TAG, "translating")
-                            LoadState.SUCCESS -> {
-                                Log.d(TRANSLATION_TAG, "success translation")
-                                Toast.makeText(
-                                    context,
-                                    "Text successfully translated",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                            LoadState.ERROR -> {
-                                Log.d(TRANSLATION_TAG, "error translation")
-                                Toast.makeText(
-                                    context,
-                                    "Error while translating text",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
+                            LoadState.SUCCESS -> Log.d(TRANSLATION_TAG, "success translation")
+                            LoadState.ERROR -> Log.d(TRANSLATION_TAG, "error translation")
                             null -> Log.d(TRANSLATION_TAG, "init")
                         }
                     }
