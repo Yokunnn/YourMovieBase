@@ -30,4 +30,6 @@
     <string name="util_age_rating">%1$d+</string>
     <string name="util_rating">%1$.1f/10 IMDb</string>
     <string name="util_length">%1$dh %2$dmin</string>
+    <string name="text_gallery">Gallery</string>
+    <string name="text_favourite">Favourite</string>
 </resources>

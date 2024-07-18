@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_galleryFragment_to_filterBottomSheetFragment"
             app:destination="@id/filterBottomSheetFragment" />
+        <action
+            android:id="@+id/action_galleryFragment_to_favouritesFragment"
+            app:destination="@id/favouritesFragment" />
     </fragment>
     <fragment
         android:id="@+id/movieDetailsFragment"
@@ -42,4 +45,16 @@
         android:name="ru.zakablukov.yourmoviebase.presentation.fragment.FilterBottomSheetFragment"
         android:label="fragment_filter_bottom_sheet"
         tools:layout="@layout/fragment_filter_bottom_sheet" />
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="ru.zakablukov.yourmoviebase.presentation.fragment.FavouritesFragment"
+        android:label="fragment_favourites"
+        tools:layout="@layout/fragment_favourites" >
+        <action
+            android:id="@+id/action_favouritesFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
+        <action
+            android:id="@+id/action_favouritesFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+    </fragment>
 </navigation>

@@ -5,33 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".presentation.fragment.GalleryFragment">
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/filterButton"
-        style="@style/FilterFABStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_filter_button"
-        android:contentDescription="@string/description_filter"
-        android:src="@drawable/icon_filter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    tools:context=".presentation.fragment.FavouritesFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/galleryRecyclerView"
+        android:id="@+id/favouritesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/galleryProgressIndicator"
+        android:id="@+id/favouritesProgressIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/galleryRecyclerView" />
+        app:layout_constraintTop_toTopOf="@id/favouritesRecyclerView" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
