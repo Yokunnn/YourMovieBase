@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("kotlin-kapt")
+    id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
     alias(libs.plugins.googleGmsGoogleServices)
 }
@@ -116,4 +117,12 @@ dependencies {
 
     //MLKit Translate
     implementation(libs.translate)
+
+    //Room
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    //Kotlin Extensions and Coroutines support for Room
+    implementation(libs.androidx.room.ktx)
+    //Paging 3 Integration
+    implementation(libs.androidx.room.paging)
 }
