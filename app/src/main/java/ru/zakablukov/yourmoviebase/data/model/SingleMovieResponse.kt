@@ -18,7 +18,7 @@ data class SingleMovieResponse(
     @SerializedName("ageRating")
     val ageRating: Int,
     @SerializedName("genres")
-    val genres: List<Genre>,
+    val genres: List<GenreResponse>,
     @SerializedName("rating")
     val rating: Rating,
     @SerializedName("poster")

@@ -48,6 +48,9 @@ interface MovieDao {
     suspend fun upsertGenre(genreEntity: GenreEntity): Long
 
     @Upsert
+    suspend fun upsertAllGenres(vararg genreEntity: GenreEntity)
+
+    @Upsert
     suspend fun upsertPerson(personEntity: PersonEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

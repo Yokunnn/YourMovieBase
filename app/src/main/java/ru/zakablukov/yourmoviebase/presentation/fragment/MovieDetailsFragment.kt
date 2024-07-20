@@ -93,9 +93,9 @@ class MovieDetailsFragment : Fragment() {
                             movie?.let {
                                 it.genres.forEach { genre ->
                                     if (Locale.getDefault().language != "ru") {
-                                        viewModel.translateRUtoEN(TranslateText(GENRE, genre))
+                                        viewModel.translateRUtoEN(TranslateText(GENRE, genre.name))
                                     } else {
-                                        genreChipGroup.addView(createChip(genre))
+                                        genreChipGroup.addView(createChip(genre.name))
                                     }
                                 }
                                 if (Locale.getDefault().language != "ru") {
