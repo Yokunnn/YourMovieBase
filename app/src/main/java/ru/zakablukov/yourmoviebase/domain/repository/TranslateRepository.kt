@@ -7,4 +7,6 @@ import ru.zakablukov.yourmoviebase.domain.model.TranslateText
 interface TranslateRepository {
 
     suspend fun translateRUtoEN(translateText: TranslateText): Flow<Request<TranslateText>>
+
+    suspend fun translateListRUtoEN(list: List<TranslateText>): Flow<Request<List<TranslateText>>>
 }

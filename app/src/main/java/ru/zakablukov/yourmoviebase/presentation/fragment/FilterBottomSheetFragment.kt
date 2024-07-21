@@ -18,9 +18,12 @@ import kotlinx.coroutines.launch
 import ru.zakablukov.yourmoviebase.R
 import ru.zakablukov.yourmoviebase.databinding.FragmentFilterBottomSheetBinding
 import ru.zakablukov.yourmoviebase.domain.model.FilterData
+import ru.zakablukov.yourmoviebase.domain.model.Genre
+import ru.zakablukov.yourmoviebase.domain.model.TranslateText
 import ru.zakablukov.yourmoviebase.presentation.adapter.GenreChipAdapter
 import ru.zakablukov.yourmoviebase.presentation.enums.LoadState
 import ru.zakablukov.yourmoviebase.presentation.viewmodel.GalleryViewModel
+import java.util.Locale
 
 @AndroidEntryPoint
 class FilterBottomSheetFragment : BottomSheetDialogFragment() {
@@ -53,6 +56,8 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
         observeGenresLocalLoadState()
         observeGenresApiLoadState()
         observeGenresResult()
+        observeTranslatedListLoadState()
+        observeTranslatedListResult()
     }
 
     private fun initBottomSheet() {
@@ -85,6 +90,7 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                     val length = lengthEditText.text
                     galleryViewModel.applyFilters(
                         FilterData(
+                            genres = genreChipAdapter?.getCheckedGenres(),
                             rating = rating,
                             year = if (year.isNullOrBlank()) null else year.toString(),
                             length = if (length.isNullOrBlank()) null else length.toString()
@@ -108,6 +114,9 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                 lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     galleryViewModel.filterData.collect { filterData ->
                         with(binding) {
+                            filterData.genres?.let { checkedGenres ->
+                                genreChipAdapter?.insertCheckedGenres(checkedGenres)
+                            }
                             filterData.rating?.let { rating ->
                                 val values = REGEX_RATING.findAll(rating).toList().map {
                                     it.value.toFloat()
@@ -184,6 +193,45 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                     galleryViewModel.genresResult.collect { genres ->
                         if (genres.isNotEmpty()) {
                             genreChipAdapter?.update(genres.toMutableList())
+                            if (Locale.getDefault().language != "ru") {
+                                galleryViewModel.translateListRUtoEN(genres.map {
+                                    TranslateText(
+                                        GENRE, it.name
+                                    )
+                                })
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeTranslatedListResult() {
+        with(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    galleryViewModel.translatedListResult.collect { translatedList ->
+                        translatedList?.let { list ->
+                            val genres = list.filter { it.type == GENRE }.map { Genre(it.text.lowercase()) }
+                            genreChipAdapter?.updateEN(genres.toMutableList())
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeTranslatedListLoadState() {
+        with(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    galleryViewModel.translatedListLoadState.collect { loadState ->
+                        when (loadState) {
+                            LoadState.LOADING -> Log.d(TRANSLATION_TAG, "loading")
+                            LoadState.SUCCESS -> Log.d(TRANSLATION_TAG, "success")
+                            LoadState.ERROR -> Log.d(TRANSLATION_TAG, "error")
+                            null -> Log.d(TRANSLATION_TAG, "init")
                         }
                     }
                 }
@@ -203,6 +251,8 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
     companion object {
         private const val GENRES_LOCAL_LOAD_TAG = "Local genres filters"
         private const val GENRES_API_LOAD_TAG = "Api genres filters"
+        private const val TRANSLATION_TAG = "Text list translation"
+        private const val GENRE = "Genre"
 
         private val REGEX = Regex("\\d+|\\d+-\\d+")
         private val REGEX_RATING = Regex("\\d+\\.\\d")

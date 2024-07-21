@@ -29,7 +29,8 @@ class GalleryPagingSource @Inject constructor(
                 params.loadSize,
                 filterData.rating?.let { listOf(it) },
                 filterData.year?.let { listOf(it) },
-                filterData.length?.let { listOf(it) }
+                filterData.length?.let { listOf(it) },
+                filterData.genres
             )
             val movies = response.toDomain()
             LoadResult.Page(

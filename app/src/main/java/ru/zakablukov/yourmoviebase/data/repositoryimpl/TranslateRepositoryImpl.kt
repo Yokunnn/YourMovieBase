@@ -10,13 +10,24 @@ import ru.zakablukov.yourmoviebase.domain.repository.TranslateRepository
 import javax.inject.Inject
 
 class TranslateRepositoryImpl @Inject constructor(
-    private val translator: Translator
+    private val translator: Translator,
 ) : TranslateRepository {
 
     override suspend fun translateRUtoEN(translateText: TranslateText): Flow<Request<TranslateText>> {
         return requestFlow {
             val translated = translator.translate(translateText.text).await()
             TranslateText(translateText.type, translated)
+        }
+    }
+
+    override suspend fun translateListRUtoEN(list: List<TranslateText>): Flow<Request<List<TranslateText>>> {
+        return requestFlow {
+            list.map {
+                TranslateText(
+                    it.type,
+                    translator.translate(it.text).await()
+                )
+            }
         }
     }
 }

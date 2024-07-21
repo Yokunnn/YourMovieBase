@@ -13,6 +13,7 @@ interface GalleryService {
         @Query(QUERY_RATING) rating: List<String>?,
         @Query(QUERY_YEAR) year: List<String>?,
         @Query(QUERY_LENGTH) length: List<String>?,
+        @Query(QUERY_GENRES) genres: List<String>?,
         @Query(QUERY_SELECT_FIELDS) selectFields: List<String> = DEFAULT_SELECT_FIELDS,
         @Query(QUERY_NOT_NULL_FIELDS) notNullFields: List<String> = DEFAULT_NOT_NULL_FIELDS,
         @Query(QUERY_SORT_FIELD) sortField: List<String> = DEFAULT_SORT_FIELD,
@@ -27,6 +28,7 @@ interface GalleryService {
         private const val QUERY_YEAR = "year"
         private const val QUERY_RATING = "rating.imdb"
         private const val QUERY_LENGTH = "movieLength"
+        private const val QUERY_GENRES = "genres.name"
         private const val QUERY_SELECT_FIELDS = "selectFields"
         private const val QUERY_NOT_NULL_FIELDS = "notNullFields"
         private const val QUERY_SORT_FIELD = "sortField"

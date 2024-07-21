@@ -12,10 +12,12 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import ru.zakablukov.yourmoviebase.data.repositoryimpl.GalleryRepositoryImpl
 import ru.zakablukov.yourmoviebase.data.repositoryimpl.GenresRepositoryImpl
+import ru.zakablukov.yourmoviebase.data.repositoryimpl.TranslateRepositoryImpl
 import ru.zakablukov.yourmoviebase.data.util.Request
 import ru.zakablukov.yourmoviebase.domain.model.FilterData
 import ru.zakablukov.yourmoviebase.domain.model.Genre
 import ru.zakablukov.yourmoviebase.domain.model.Movie
+import ru.zakablukov.yourmoviebase.domain.model.TranslateText
 import ru.zakablukov.yourmoviebase.presentation.enums.LoadState
 import javax.inject.Inject
 
@@ -23,18 +25,25 @@ import javax.inject.Inject
 class GalleryViewModel @Inject constructor(
     private val galleryRepositoryImpl: GalleryRepositoryImpl,
     private val genresRepositoryImpl: GenresRepositoryImpl,
+    private val translateRepositoryImpl: TranslateRepositoryImpl,
 ) : ViewModel() {
 
     private val _filterData = MutableStateFlow(FilterData())
     val filterData: StateFlow<FilterData> = _filterData
     private val _moviesResult = MutableStateFlow<PagingData<Movie>?>(PagingData.empty())
     val moviesResult: StateFlow<PagingData<Movie>?> = _moviesResult
+
     private val _genresLocalLoadState = MutableStateFlow<LoadState?>(null)
     val genresLocalLoadState: StateFlow<LoadState?> = _genresLocalLoadState
     private val _genresApiLoadState = MutableStateFlow<LoadState?>(null)
     val genresApiLoadState: StateFlow<LoadState?> = _genresApiLoadState
     private val _genresResult = MutableStateFlow<List<Genre>>(emptyList())
     val genresResult: StateFlow<List<Genre>> = _genresResult
+
+    private val _translatedListResult = MutableStateFlow<List<TranslateText>?>(null)
+    val translatedListResult: StateFlow<List<TranslateText>?> = _translatedListResult
+    private val _translatedListLoadState = MutableStateFlow<LoadState?>(null)
+    val translatedListLoadState: StateFlow<LoadState?> = _translatedListLoadState
 
     fun applyFilters(filterData: FilterData) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -85,6 +94,21 @@ class GalleryViewModel @Inject constructor(
                     _genresApiLoadState.emit(LoadState.SUCCESS)
                     _genresResult.emit(requestState.data)
                     genresRepositoryImpl.upsertAllGenres(requestState.data)
+                }
+            }
+        }
+    }
+
+    fun translateListRUtoEN(list: List<TranslateText>) {
+        viewModelScope.launch {
+            translateRepositoryImpl.translateListRUtoEN(list).collect { requestState ->
+                when (requestState) {
+                    is Request.Error -> _translatedListLoadState.emit(LoadState.ERROR)
+                    is Request.Loading -> _translatedListLoadState.emit(LoadState.LOADING)
+                    is Request.Success -> {
+                        _translatedListLoadState.emit(LoadState.SUCCESS)
+                        _translatedListResult.emit(requestState.data)
+                    }
                 }
             }
         }
