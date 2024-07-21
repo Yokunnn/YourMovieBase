@@ -32,4 +32,5 @@
     <string name="util_length">%1$dh %2$dmin</string>
     <string name="text_gallery">Gallery</string>
     <string name="text_favourite">Favourite</string>
+    <string name="filler_genre">Genre</string>
 </resources>

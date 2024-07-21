@@ -8,5 +8,7 @@ interface GenresRepository {
 
     suspend fun getAllGenres(): Flow<Request<List<Genre>>>
 
+    suspend fun getAllLocalGenres(): Flow<Request<List<Genre>>>
+
     suspend fun upsertAllGenres(genres: List<Genre>): Flow<Request<Unit>>
 }

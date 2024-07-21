@@ -19,4 +19,6 @@
     <dimen name="padding_filters_sheet_horizontal">20dp</dimen>
     <dimen name="padding_filters_sheet_vertical">8dp</dimen>
     <dimen name="margin_filter_items">8dp</dimen>
+    <dimen name="margin_horizontal_genre_item">4dp</dimen>
+    <dimen name="height_genre_recycler_view">160dp</dimen>
 </resources>

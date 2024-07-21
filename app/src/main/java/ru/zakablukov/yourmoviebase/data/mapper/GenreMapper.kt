@@ -9,3 +9,6 @@ fun GenreResponse.toDomain(): Genre =
 
 fun Genre.toEntity(): GenreEntity =
     GenreEntity(name = name)
+
+fun GenreEntity.toDomain(): Genre =
+    Genre(name)

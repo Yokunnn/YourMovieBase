@@ -1,6 +1,7 @@
 package ru.zakablukov.yourmoviebase.presentation.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,8 @@ import kotlinx.coroutines.launch
 import ru.zakablukov.yourmoviebase.R
 import ru.zakablukov.yourmoviebase.databinding.FragmentFilterBottomSheetBinding
 import ru.zakablukov.yourmoviebase.domain.model.FilterData
+import ru.zakablukov.yourmoviebase.presentation.adapter.GenreChipAdapter
+import ru.zakablukov.yourmoviebase.presentation.enums.LoadState
 import ru.zakablukov.yourmoviebase.presentation.viewmodel.GalleryViewModel
 
 @AndroidEntryPoint
@@ -26,10 +29,11 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
     private val galleryViewModel by navGraphViewModels<GalleryViewModel>(R.id.nav_graph) {
         defaultViewModelProviderFactory
     }
+    private var genreChipAdapter: GenreChipAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         return inflater.inflate(R.layout.fragment_filter_bottom_sheet, container, false)
     }
@@ -37,11 +41,18 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        genreChipAdapter = GenreChipAdapter()
+        binding.genreRecyclerView.adapter = genreChipAdapter
+
+        galleryViewModel.getAllLocalGenres()
         initBottomSheet()
         initResetButton()
         initApplyButton()
 
         observeFilterData()
+        observeGenresLocalLoadState()
+        observeGenresApiLoadState()
+        observeGenresResult()
     }
 
     private fun initBottomSheet() {
@@ -116,6 +127,70 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
+    private fun observeGenresLocalLoadState() {
+        with(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    galleryViewModel.genresLocalLoadState.collect { loadState ->
+                        when (loadState) {
+                            LoadState.LOADING -> Log.d(GENRES_LOCAL_LOAD_TAG, "loading")
+                            LoadState.SUCCESS -> Log.d(GENRES_LOCAL_LOAD_TAG, "success")
+                            LoadState.ERROR -> {
+                                Log.d(GENRES_LOCAL_LOAD_TAG, "error")
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Error trying get cached genres",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            null -> Log.d(GENRES_LOCAL_LOAD_TAG, "init")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeGenresApiLoadState() {
+        with(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    galleryViewModel.genresApiLoadState.collect { loadState ->
+                        when (loadState) {
+                            LoadState.LOADING -> Log.d(GENRES_API_LOAD_TAG, "loading")
+                            LoadState.SUCCESS -> Log.d(GENRES_API_LOAD_TAG, "success")
+                            LoadState.ERROR -> {
+                                Log.d(GENRES_API_LOAD_TAG, "error")
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Error trying load genres",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            null -> Log.d(GENRES_API_LOAD_TAG, "init")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeGenresResult() {
+        with(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    galleryViewModel.genresResult.collect { genres ->
+                        if (genres.isNotEmpty()) {
+                            genreChipAdapter?.update(genres.toMutableList())
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private fun isTextValid(): Boolean {
         with(binding) {
             val year = yearEditText.text
@@ -126,6 +201,9 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     companion object {
+        private const val GENRES_LOCAL_LOAD_TAG = "Local genres filters"
+        private const val GENRES_API_LOAD_TAG = "Api genres filters"
+
         private val REGEX = Regex("\\d+|\\d+-\\d+")
         private val REGEX_RATING = Regex("\\d+\\.\\d")
         private val REGEX_RATING_FIX_STRING = Regex("\\[|\\]")

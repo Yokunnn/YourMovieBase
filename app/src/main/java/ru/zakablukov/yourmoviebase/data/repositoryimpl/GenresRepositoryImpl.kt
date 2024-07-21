@@ -23,6 +23,13 @@ class GenresRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getAllLocalGenres(): Flow<Request<List<Genre>>> {
+        return requestFlow {
+            val genres = movieDao.getGenres()
+            genres.map { it.toDomain() }
+        }
+    }
+
     override suspend fun upsertAllGenres(genres: List<Genre>): Flow<Request<Unit>> {
         return requestFlow {
             val genreEntities = genres.map { it.toEntity() }
