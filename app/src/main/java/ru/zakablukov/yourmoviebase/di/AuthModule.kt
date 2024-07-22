@@ -1,5 +1,7 @@
 package ru.zakablukov.yourmoviebase.di
 
+import android.content.Context
+import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.firebase.Firebase
@@ -8,6 +10,7 @@ import com.google.firebase.auth.auth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.zakablukov.yourmoviebase.BuildConfig
 import ru.zakablukov.yourmoviebase.data.repositoryimpl.AuthRepositoryImpl
@@ -41,4 +44,9 @@ object AuthModule {
         GetCredentialRequest.Builder()
             .addCredentialOption(getGoogleIdOption)
             .build()
+
+    @Singleton
+    @Provides
+    fun provideCredentialManager(@ApplicationContext context: Context) =
+        CredentialManager.create(context)
 }
