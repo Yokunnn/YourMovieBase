@@ -34,7 +34,7 @@ class MovieDetailsFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         personAdapter = PersonAdapterSmall()
         return inflater.inflate(R.layout.fragment_movie_details, container, false)
@@ -47,7 +47,11 @@ class MovieDetailsFragment : Fragment() {
         requestForMovie()
 
         observeMovieDetailsResult()
-        observeMovieDetailsLoadState()
+        observeApiDetailsLoadState()
+        observeLocalDetailsLoadState()
+        observeMovieUpsertLocalLoadState()
+        observeIsFavouriteLoadState()
+        observeIsFavouriteResult()
         observeTranslatedTextResult()
         observeTranslatedTextLoadState()
     }
@@ -115,15 +119,16 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-    private fun observeMovieDetailsLoadState() {
+    private fun observeApiDetailsLoadState() {
         with(viewLifecycleOwner) {
             lifecycleScope.launch {
                 lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.movieDetailsLoadState.collect { loadState ->
+                    viewModel.movieApiDetailsLoadState.collect { loadState ->
                         when (loadState) {
-                            LoadState.LOADING -> Log.d(LOAD_TAG, "loading")
+                            LoadState.LOADING -> Log.d(API_LOAD_TAG, "loading")
                             LoadState.SUCCESS -> {
-                                Log.d(LOAD_TAG, "success")
+                                Log.d(API_LOAD_TAG, "success")
+                                initLikeButton()
                                 Toast.makeText(
                                     context,
                                     "Details successfully loaded",
@@ -132,7 +137,7 @@ class MovieDetailsFragment : Fragment() {
                             }
 
                             LoadState.ERROR -> {
-                                Log.d(LOAD_TAG, "error")
+                                Log.d(API_LOAD_TAG, "error")
                                 Toast.makeText(
                                     context,
                                     "Error while loading details",
@@ -140,10 +145,123 @@ class MovieDetailsFragment : Fragment() {
                                 ).show()
                             }
 
-                            null -> Log.d(LOAD_TAG, "init")
+                            null -> Log.d(API_LOAD_TAG, "init")
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private fun observeLocalDetailsLoadState() {
+        with(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.movieLocalDetailsLoadState.collect { loadState ->
+                        when (loadState) {
+                            LoadState.LOADING -> Log.d(LOCAL_LOAD_TAG, "loading")
+                            LoadState.SUCCESS -> {
+                                Log.d(LOCAL_LOAD_TAG, "success")
+                                Toast.makeText(
+                                    context,
+                                    "Details successfully loaded",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            LoadState.ERROR -> {
+                                Log.d(LOCAL_LOAD_TAG, "error")
+                                Toast.makeText(
+                                    context,
+                                    "Error while loading details",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            null -> Log.d(LOCAL_LOAD_TAG, "init")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeMovieUpsertLocalLoadState() {
+        with(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.movieUpsertLocalLoadState.collect { loadState ->
+                        when (loadState) {
+                            LoadState.LOADING -> Log.d(UPSERT_LOCAL_LOAD_TAG, "loading")
+                            LoadState.SUCCESS -> Log.d(UPSERT_LOCAL_LOAD_TAG, "success")
+                            LoadState.ERROR -> Log.d(UPSERT_LOCAL_LOAD_TAG, "error")
+                            null -> Log.d(UPSERT_LOCAL_LOAD_TAG, "init")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeIsFavouriteLoadState() {
+        with(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.isFavouriteLoadState.collect { loadState ->
+                        when (loadState) {
+                            LoadState.LOADING -> Log.d(IS_FAVOURITE_LOAD_TAG, "loading")
+                            LoadState.SUCCESS -> Log.d(IS_FAVOURITE_LOAD_TAG, "success")
+                            LoadState.ERROR -> Log.d(IS_FAVOURITE_LOAD_TAG, "error")
+                            null -> Log.d(IS_FAVOURITE_LOAD_TAG, "init")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeIsFavouriteResult() {
+        with(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.isFavouriteResult.collect { isFavourite ->
+                        when (isFavourite) {
+                            true -> {
+                                Log.d(IS_FAVOURITE_RES_LOAD_TAG, "favourite")
+                                initDislikeButton()
+                            }
+
+                            false -> {
+                                Log.d(IS_FAVOURITE_RES_LOAD_TAG, "not favourite")
+                                initLikeButton()
+                            }
+
+                            null -> Log.d(IS_FAVOURITE_RES_LOAD_TAG, "init")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun initLikeButton() {
+        with(binding.likeButton) {
+            visibility = View.VISIBLE
+            setIconResource(R.drawable.icon_not_favourite)
+            setIconTintResource(R.color.yellow)
+            setOnClickListener {
+                viewModel.updateIsFavouriteById(true)
+            }
+        }
+    }
+
+    private fun initDislikeButton() {
+        with(binding.likeButton) {
+            visibility = View.VISIBLE
+            setIconResource(R.drawable.icon_favourite)
+            setIconTintResource(R.color.red)
+            setOnClickListener {
+                viewModel.updateIsFavouriteById(false)
             }
         }
     }
@@ -191,7 +309,11 @@ class MovieDetailsFragment : Fragment() {
 
     companion object {
         private const val ID = "id"
-        private const val LOAD_TAG = "Details loaded"
+        private const val API_LOAD_TAG = "Details loaded from api"
+        private const val LOCAL_LOAD_TAG = "Details loaded from local"
+        private const val UPSERT_LOCAL_LOAD_TAG = "Movie upsert local"
+        private const val IS_FAVOURITE_LOAD_TAG = "Movie check favourite"
+        private const val IS_FAVOURITE_RES_LOAD_TAG = "Movie favourite res"
         private const val TRANSLATION_TAG = "Text translation"
         private const val DESCRIPTION = "Description"
         private const val GENRE = "Genre"

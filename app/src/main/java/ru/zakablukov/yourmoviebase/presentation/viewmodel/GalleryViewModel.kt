@@ -67,7 +67,7 @@ class GalleryViewModel @Inject constructor(
     }
 
     fun getAllLocalGenres() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             genresRepositoryImpl.getAllLocalGenres().collect { requestState ->
                 when (requestState) {
                     is Request.Error -> {
@@ -100,7 +100,7 @@ class GalleryViewModel @Inject constructor(
     }
 
     fun translateListRUtoEN(list: List<TranslateText>) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             translateRepositoryImpl.translateListRUtoEN(list).collect { requestState ->
                 when (requestState) {
                     is Request.Error -> _translatedListLoadState.emit(LoadState.ERROR)

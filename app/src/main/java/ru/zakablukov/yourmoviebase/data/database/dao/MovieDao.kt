@@ -25,12 +25,15 @@ interface MovieDao {
     @Query(SELECT_MOVIE_BY_ID)
     suspend fun getMovieByExternalId(externalId: Int): MovieWithPersonsAndGenres
 
+    @Query(SELECT_MOVIE_FAVOURITE_BY_ID)
+    suspend fun checkMovieFavourite(externalId: Int): Boolean
+
     @Query(SELECT_ALL_GENRES)
     suspend fun getGenres(): List<GenreEntity>
 
     @Transaction
     suspend fun upsertMovieWithPersonsAndGenres(movieWithPersonsAndGenres: MovieWithPersonsAndGenres) {
-        val movieId = insertMovie(movieWithPersonsAndGenres.movie).toInt()
+        val movieId = upsertMovie(movieWithPersonsAndGenres.movie).toInt()
         movieWithPersonsAndGenres.persons.forEach { person ->
             val personId = upsertPerson(person).toInt()
             insertMoviePersonCrossRef(MoviePersonCrossRef(movieId, personId))
@@ -41,8 +44,11 @@ interface MovieDao {
         }
     }
 
-    @Insert
-    suspend fun insertMovie(movieEntity: MovieEntity): Long
+    @Upsert
+    suspend fun upsertMovie(movieEntity: MovieEntity): Long
+
+    @Query(UPDATE_FAVOURITE_BY_ID)
+    suspend fun updateIsFavouriteById(externalId: Int, isFavourite: Boolean): Int
 
     @Upsert
     suspend fun upsertGenre(genreEntity: GenreEntity): Long
@@ -62,6 +68,8 @@ interface MovieDao {
     companion object {
         private const val SELECT_FULL_MOVIES = "SELECT * FROM movie"
         private const val SELECT_MOVIE_BY_ID = "SELECT * FROM movie WHERE externalId LIKE :externalId"
+        private const val SELECT_MOVIE_FAVOURITE_BY_ID = "SELECT isFavourite FROM movie WHERE externalId LIKE :externalId"
         private const val SELECT_ALL_GENRES = "SELECT * FROM genre"
+        private const val UPDATE_FAVOURITE_BY_ID = "UPDATE movie SET isFavourite = :isFavourite WHERE externalId LIKE :externalId"
     }
 }

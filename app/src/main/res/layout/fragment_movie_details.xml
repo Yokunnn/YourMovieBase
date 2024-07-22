@@ -56,13 +56,25 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@string/filler_movie_title" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/likeButton"
+                style="@style/Widget.Material3.Button.IconButton.Outlined"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/icon_not_favourite"
+                app:iconTint="@color/yellow"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/movieNameTextView" />
+
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ratingStarImageView"
                 android:layout_width="@dimen/dimen_icon_star"
                 android:layout_height="@dimen/dimen_icon_star"
                 android:src="@drawable/icon_star"
+                app:layout_constraintBottom_toBottomOf="@id/likeButton"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/movieNameTextView"
+                app:layout_constraintTop_toTopOf="@id/likeButton"
                 app:tint="@color/yellow" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -80,7 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/ratingStarImageView" />
+                app:layout_constraintTop_toBottomOf="@id/likeButton" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lengthTextView"
@@ -171,7 +183,7 @@
                 android:id="@+id/actorsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/actorsTextView"/>
+                app:layout_constraintTop_toBottomOf="@id/actorsTextView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
