@@ -66,7 +66,7 @@ interface MovieDao {
     suspend fun insertMoviePersonCrossRef(moviePersonCrossRef: MoviePersonCrossRef)
 
     companion object {
-        private const val SELECT_FULL_MOVIES = "SELECT * FROM movie"
+        private const val SELECT_FULL_MOVIES = "SELECT * FROM movie WHERE isFavourite = true"
         private const val SELECT_MOVIE_BY_ID = "SELECT * FROM movie WHERE externalId LIKE :externalId"
         private const val SELECT_MOVIE_FAVOURITE_BY_ID = "SELECT isFavourite FROM movie WHERE externalId LIKE :externalId"
         private const val SELECT_ALL_GENRES = "SELECT * FROM genre"

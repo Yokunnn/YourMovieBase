@@ -1,6 +1,11 @@
 package ru.zakablukov.yourmoviebase.data.repositoryimpl
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import ru.zakablukov.yourmoviebase.data.database.dao.MovieDao
 import ru.zakablukov.yourmoviebase.data.mapper.toDomain
 import ru.zakablukov.yourmoviebase.data.mapper.toEntity
@@ -18,6 +23,18 @@ class DatabaseRepositoryImpl @Inject constructor(
         return requestFlow {
             movieDao.upsertMovieWithPersonsAndGenres(movie.toEntity(isFavourite))
         }
+    }
+
+    override fun getFavouriteMovies(): Flow<PagingData<Movie>> = Pager(
+        config = PagingConfig(
+            pageSize = 10,
+            enablePlaceholders = true
+        ),
+        pagingSourceFactory = {
+            movieDao.getMoviesWithPersonsAndGenres()
+        }
+    ).flow.map { pagingData ->
+        pagingData.map { it.toDomain() }
     }
 
     override suspend fun getMovieByExternalId(externalId: Int): Flow<Request<Movie>> {
