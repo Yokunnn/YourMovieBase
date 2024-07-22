@@ -33,4 +33,13 @@
     <string name="text_gallery">Gallery</string>
     <string name="text_favourite">Favourite</string>
     <string name="filler_genre">Genre</string>
+    <string name="snack_user_auth_error">User authentication failed</string>
+    <string name="snack_user_reg_error">User registration failed</string>
+    <string name="snack_user_google_auth_error">User google authentication failed</string>
+    <string name="snack_error_while_loading">Error while loading</string>
+    <string name="snack_invalid_string_format">Invalid string format</string>
+    <string name="snack_error_cached_genres">Error trying get cached genres</string>
+    <string name="snack_error_load_genres">Error trying load genres</string>
+    <string name="snack_details_load_success">Details successfully loaded</string>
+    <string name="snack_details_load_error">Error while loading details</string>
 </resources>

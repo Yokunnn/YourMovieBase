@@ -6,13 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.zakablukov.yourmoviebase.R
@@ -87,8 +87,10 @@ class AuthFragment : Fragment() {
                                 Log.d(SIGN_IN_TAG, "user auth failed")
                                 binding.loginProgressIndicator.visibility = View.GONE
                                 binding.loginButton.textScaleX = 1f
-                                Toast.makeText(
-                                    context, "User authentication failed", Toast.LENGTH_SHORT
+                                Snackbar.make(
+                                    binding.root,
+                                    resources.getString(R.string.snack_user_auth_error),
+                                    Snackbar.LENGTH_SHORT
                                 ).show()
                             }
 
@@ -121,8 +123,10 @@ class AuthFragment : Fragment() {
                                 Log.d(REGISTER_TAG, "user registration failed")
                                 binding.registerProgressIndicator.visibility = View.GONE
                                 binding.registerButton.textScaleX = 1f
-                                Toast.makeText(
-                                    context, "User registration failed", Toast.LENGTH_SHORT
+                                Snackbar.make(
+                                    binding.root,
+                                    resources.getString(R.string.snack_user_reg_error),
+                                    Snackbar.LENGTH_SHORT
                                 ).show()
                             }
 
@@ -149,8 +153,10 @@ class AuthFragment : Fragment() {
 
                             LoadState.ERROR -> {
                                 Log.d(SIGN_IN_GOOGLE_TAG, "user google auth failed")
-                                Toast.makeText(
-                                    context, "User google authentication failed", Toast.LENGTH_SHORT
+                                Snackbar.make(
+                                    binding.root,
+                                    resources.getString(R.string.snack_user_google_auth_error),
+                                    Snackbar.LENGTH_SHORT
                                 ).show()
                             }
 

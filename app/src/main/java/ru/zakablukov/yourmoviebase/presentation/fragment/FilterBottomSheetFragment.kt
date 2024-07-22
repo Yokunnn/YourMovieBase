@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -13,6 +12,7 @@ import androidx.navigation.navGraphViewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.zakablukov.yourmoviebase.R
@@ -98,10 +98,10 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                     )
                     dismiss()
                 } else {
-                    Toast.makeText(
-                        context,
-                        "Invalid string format",
-                        Toast.LENGTH_SHORT
+                    Snackbar.make(
+                        binding.root,
+                        resources.getString(R.string.snack_invalid_string_format),
+                        Snackbar.LENGTH_SHORT
                     ).show()
                 }
             }
@@ -146,10 +146,10 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                             LoadState.SUCCESS -> Log.d(GENRES_LOCAL_LOAD_TAG, "success")
                             LoadState.ERROR -> {
                                 Log.d(GENRES_LOCAL_LOAD_TAG, "error")
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Error trying get cached genres",
-                                    Toast.LENGTH_SHORT
+                                Snackbar.make(
+                                    binding.root,
+                                    resources.getString(R.string.snack_error_cached_genres),
+                                    Snackbar.LENGTH_SHORT
                                 ).show()
                             }
 
@@ -171,10 +171,10 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                             LoadState.SUCCESS -> Log.d(GENRES_API_LOAD_TAG, "success")
                             LoadState.ERROR -> {
                                 Log.d(GENRES_API_LOAD_TAG, "error")
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Error trying load genres",
-                                    Toast.LENGTH_SHORT
+                                Snackbar.make(
+                                    binding.root,
+                                    resources.getString(R.string.snack_error_load_genres),
+                                    Snackbar.LENGTH_SHORT
                                 ).show()
                             }
 

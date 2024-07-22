@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.zakablukov.yourmoviebase.R
@@ -129,19 +129,19 @@ class MovieDetailsFragment : Fragment() {
                             LoadState.SUCCESS -> {
                                 Log.d(API_LOAD_TAG, "success")
                                 initLikeButton()
-                                Toast.makeText(
-                                    context,
-                                    "Details successfully loaded",
-                                    Toast.LENGTH_SHORT
+                                Snackbar.make(
+                                    binding.root,
+                                    resources.getString(R.string.snack_details_load_success),
+                                    Snackbar.LENGTH_SHORT
                                 ).show()
                             }
 
                             LoadState.ERROR -> {
                                 Log.d(API_LOAD_TAG, "error")
-                                Toast.makeText(
-                                    context,
-                                    "Error while loading details",
-                                    Toast.LENGTH_SHORT
+                                Snackbar.make(
+                                    binding.root,
+                                    resources.getString(R.string.snack_details_load_error),
+                                    Snackbar.LENGTH_SHORT
                                 ).show()
                             }
 
@@ -162,19 +162,19 @@ class MovieDetailsFragment : Fragment() {
                             LoadState.LOADING -> Log.d(LOCAL_LOAD_TAG, "loading")
                             LoadState.SUCCESS -> {
                                 Log.d(LOCAL_LOAD_TAG, "success")
-                                Toast.makeText(
-                                    context,
-                                    "Details successfully loaded",
-                                    Toast.LENGTH_SHORT
+                                Snackbar.make(
+                                    binding.root,
+                                    resources.getString(R.string.snack_details_load_success),
+                                    Snackbar.LENGTH_SHORT
                                 ).show()
                             }
 
                             LoadState.ERROR -> {
                                 Log.d(LOCAL_LOAD_TAG, "error")
-                                Toast.makeText(
-                                    context,
-                                    "Error while loading details",
-                                    Toast.LENGTH_SHORT
+                                Snackbar.make(
+                                    binding.root,
+                                    resources.getString(R.string.snack_details_load_error),
+                                    Snackbar.LENGTH_SHORT
                                 ).show()
                             }
 

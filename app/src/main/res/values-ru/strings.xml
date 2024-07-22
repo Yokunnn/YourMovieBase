@@ -34,4 +34,13 @@
     <string name="text_gallery">Галлерея</string>
     <string name="text_favourite">Избранные</string>
     <string name="filler_genre">Жанр</string>
+    <string name="snack_user_auth_error">Авторизация пользователя была провалена</string>
+    <string name="snack_user_reg_error">Регистрация пользователя была провалена</string>
+    <string name="snack_user_google_auth_error">Авторизация через Google была провалена</string>
+    <string name="snack_error_while_loading">Ошибка при загрузке данных</string>
+    <string name="snack_invalid_string_format">Неверный формат строки</string>
+    <string name="snack_error_cached_genres">Ошибка при получении сохранённых жанров</string>
+    <string name="snack_error_load_genres">Ошибка при загрузке жанров по сети</string>
+    <string name="snack_details_load_success">Детали фильма успешно загружены</string>
+    <string name="snack_details_load_error">Ошибка при загрузке деталей фильма</string>
 </resources>

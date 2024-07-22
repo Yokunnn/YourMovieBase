@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -15,6 +14,7 @@ import androidx.navigation.navGraphViewModels
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.zakablukov.yourmoviebase.R
@@ -67,8 +67,10 @@ class GalleryFragment : Fragment() {
                 when (loadState.source.refresh) {
                     is androidx.paging.LoadState.Error -> {
                         Log.d(LOAD_TAG, "error")
-                        Toast.makeText(
-                            context, "Error while loading", Toast.LENGTH_SHORT
+                        Snackbar.make(
+                            binding.root,
+                            resources.getString(R.string.snack_error_while_loading),
+                            Snackbar.LENGTH_SHORT
                         ).show()
                     }
 
