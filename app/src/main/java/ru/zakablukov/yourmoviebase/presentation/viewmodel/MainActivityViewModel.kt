@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import ru.zakablukov.yourmoviebase.data.repositoryimpl.AuthRepositoryImpl
+import ru.zakablukov.yourmoviebase.data.repositoryimpl.DatabaseRepositoryImpl
 import ru.zakablukov.yourmoviebase.data.repositoryimpl.GenresRepositoryImpl
 import ru.zakablukov.yourmoviebase.data.util.Request
 import ru.zakablukov.yourmoviebase.presentation.enums.LoadState
@@ -18,6 +19,7 @@ import javax.inject.Inject
 class MainActivityViewModel @Inject constructor(
     private val genresRepositoryImpl: GenresRepositoryImpl,
     private val authRepositoryImpl: AuthRepositoryImpl,
+    private val databaseRepositoryImpl: DatabaseRepositoryImpl,
 ) : ViewModel() {
 
     private val _apiGenresLoadState = MutableStateFlow<LoadState?>(null)
@@ -36,7 +38,7 @@ class MainActivityViewModel @Inject constructor(
                     is Request.Loading -> _apiGenresLoadState.emit(LoadState.LOADING)
                     is Request.Success -> {
                         _apiGenresLoadState.emit(LoadState.SUCCESS)
-                        genresRepositoryImpl.upsertAllGenres(requestState.data)
+                        databaseRepositoryImpl.upsertAllGenres(requestState.data)
                             .collect { dbRequestState ->
                                 when (dbRequestState) {
                                     is Request.Error -> _genresUpsertLoadState.emit(LoadState.ERROR)

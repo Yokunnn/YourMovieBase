@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import ru.zakablukov.yourmoviebase.data.repositoryimpl.DatabaseRepositoryImpl
 import ru.zakablukov.yourmoviebase.data.repositoryimpl.GalleryRepositoryImpl
 import ru.zakablukov.yourmoviebase.data.repositoryimpl.GenresRepositoryImpl
 import ru.zakablukov.yourmoviebase.data.repositoryimpl.TranslateRepositoryImpl
@@ -26,6 +27,7 @@ class GalleryViewModel @Inject constructor(
     private val galleryRepositoryImpl: GalleryRepositoryImpl,
     private val genresRepositoryImpl: GenresRepositoryImpl,
     private val translateRepositoryImpl: TranslateRepositoryImpl,
+    private val databaseRepositoryImpl: DatabaseRepositoryImpl,
 ) : ViewModel() {
 
     private val _filterData = MutableStateFlow(FilterData())
@@ -68,7 +70,7 @@ class GalleryViewModel @Inject constructor(
 
     fun getAllLocalGenres() {
         viewModelScope.launch(Dispatchers.IO) {
-            genresRepositoryImpl.getAllLocalGenres().collect { requestState ->
+            databaseRepositoryImpl.getAllGenres().collect { requestState ->
                 when (requestState) {
                     is Request.Error -> {
                         _genresLocalLoadState.emit(LoadState.ERROR)
@@ -93,7 +95,7 @@ class GalleryViewModel @Inject constructor(
                 is Request.Success -> {
                     _genresApiLoadState.emit(LoadState.SUCCESS)
                     _genresResult.emit(requestState.data)
-                    genresRepositoryImpl.upsertAllGenres(requestState.data)
+                    databaseRepositoryImpl.upsertAllGenres(requestState.data)
                 }
             }
         }
