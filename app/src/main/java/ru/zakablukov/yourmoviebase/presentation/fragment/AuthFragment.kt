@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.credentials.GetCredentialRequest
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -20,7 +19,6 @@ import ru.zakablukov.yourmoviebase.R
 import ru.zakablukov.yourmoviebase.databinding.FragmentAuthBinding
 import ru.zakablukov.yourmoviebase.presentation.enums.LoadState
 import ru.zakablukov.yourmoviebase.presentation.viewmodel.AuthViewModel
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class AuthFragment : Fragment() {
@@ -28,15 +26,9 @@ class AuthFragment : Fragment() {
     private val binding by viewBinding(FragmentAuthBinding::bind)
     private val viewModel: AuthViewModel by viewModels()
 
-    @Inject
-    lateinit var googleCredentialRequest: GetCredentialRequest
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        viewModel.getCurrentUser()
-        observeCurrentUser()
-
         return inflater.inflate(R.layout.fragment_auth, container, false)
     }
 
@@ -71,21 +63,6 @@ class AuthFragment : Fragment() {
     private fun initGoogleSignInBtn() {
         binding.googleSignInButton.setOnClickListener {
             viewModel.tryGetCredentials(requireContext())
-        }
-    }
-
-    private fun observeCurrentUser() {
-        with(viewLifecycleOwner) {
-            lifecycleScope.launch {
-                lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.userResult.collect { user ->
-                        user?.let {
-                            viewModel.requestEmailVerification()
-                            findNavController().navigate(R.id.action_authFragment_to_galleryFragment)
-                        }
-                    }
-                }
-            }
         }
     }
 

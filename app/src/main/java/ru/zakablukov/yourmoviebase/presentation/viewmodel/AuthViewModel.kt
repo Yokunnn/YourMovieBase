@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -36,8 +35,6 @@ class AuthViewModel @Inject constructor(
     val registerLoadState: StateFlow<LoadState?> = _registerLoadState
     private val _signInGoogleLoadState = MutableStateFlow<LoadState?>(null)
     val signInGoogleLoadState: StateFlow<LoadState?> = _signInGoogleLoadState
-    private val _userResult = MutableStateFlow<FirebaseUser?>(null)
-    val userResult: StateFlow<FirebaseUser?> = _userResult
 
     fun signInWithEmailAndPassword(email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -63,23 +60,13 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun signInWithGoogle(credential: AuthCredential) {
+    private fun signInWithGoogle(credential: AuthCredential) {
         viewModelScope.launch(Dispatchers.IO) {
             authRepositoryImpl.signInWithGoogle(credential).collect { requestState ->
                 when (requestState) {
                     is Request.Error -> _signInGoogleLoadState.emit(LoadState.ERROR)
                     is Request.Loading -> _signInGoogleLoadState.emit(LoadState.LOADING)
                     is Request.Success -> _signInGoogleLoadState.emit(LoadState.SUCCESS)
-                }
-            }
-        }
-    }
-
-    fun getCurrentUser() {
-        viewModelScope.launch(Dispatchers.IO) {
-            authRepositoryImpl.getCurrentUser().collect { requestState ->
-                if (requestState is Request.Success) {
-                    _userResult.emit(requestState.data)
                 }
             }
         }

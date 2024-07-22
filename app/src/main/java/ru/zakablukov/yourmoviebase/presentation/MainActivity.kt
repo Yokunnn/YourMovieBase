@@ -29,10 +29,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        viewModel.getCurrentUser()
         viewModel.loadOrRefreshGenres()
         setupBottomNavigation()
 
         observeGenresLoadStates()
+        observeCurrentUser()
     }
 
     private fun setupBottomNavigation() {
@@ -94,6 +96,22 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         null -> Log.d(API_LOAD_TAG, "init")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeCurrentUser() {
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(androidx.lifecycle.Lifecycle.State.STARTED) {
+                viewModel.userResult.collect { user ->
+                    user?.let {
+                        viewModel.requestEmailVerification()
+                        val navHostFragment =
+                            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+                        val navController = navHostFragment.navController
+                        navController.navigate(R.id.galleryFragment)
                     }
                 }
             }
