@@ -31,7 +31,7 @@
     <string name="util_age_rating">%1$d+</string>
     <string name="util_rating">%1$.1f/10 IMDb</string>
     <string name="util_length">%1$dч %2$dмин</string>
-    <string name="text_gallery">Галлерея</string>
+    <string name="text_gallery">Галерея</string>
     <string name="text_favourite">Избранные</string>
     <string name="filler_genre">Жанр</string>
     <string name="snack_user_auth_error">Авторизация пользователя была провалена</string>
