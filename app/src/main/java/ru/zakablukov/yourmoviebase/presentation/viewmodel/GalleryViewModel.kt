@@ -11,8 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import ru.zakablukov.yourmoviebase.data.repositoryimpl.DatabaseRepositoryImpl
-import ru.zakablukov.yourmoviebase.data.repositoryimpl.GalleryRepositoryImpl
-import ru.zakablukov.yourmoviebase.data.repositoryimpl.GenresRepositoryImpl
+import ru.zakablukov.yourmoviebase.data.repositoryimpl.MovieRepositoryImpl
 import ru.zakablukov.yourmoviebase.data.repositoryimpl.TranslateRepositoryImpl
 import ru.zakablukov.yourmoviebase.data.util.Request
 import ru.zakablukov.yourmoviebase.domain.model.FilterData
@@ -24,8 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GalleryViewModel @Inject constructor(
-    private val galleryRepositoryImpl: GalleryRepositoryImpl,
-    private val genresRepositoryImpl: GenresRepositoryImpl,
+    private val movieRepositoryImpl: MovieRepositoryImpl,
     private val translateRepositoryImpl: TranslateRepositoryImpl,
     private val databaseRepositoryImpl: DatabaseRepositoryImpl,
 ) : ViewModel() {
@@ -64,7 +62,7 @@ class GalleryViewModel @Inject constructor(
     }
 
     private suspend fun getPagingData(): PagingData<Movie>? {
-        return galleryRepositoryImpl.getMovies(_filterData.value)
+        return movieRepositoryImpl.getMovies(_filterData.value)
             .cachedIn(viewModelScope).firstOrNull()
     }
 
@@ -88,7 +86,7 @@ class GalleryViewModel @Inject constructor(
     }
 
     private suspend fun getAndSaveGenres() {
-        genresRepositoryImpl.getAllGenres().collect { requestState ->
+        movieRepositoryImpl.getAllGenres().collect { requestState ->
             when (requestState) {
                 is Request.Error -> _genresApiLoadState.emit(LoadState.ERROR)
                 is Request.Loading -> _genresApiLoadState.emit(LoadState.LOADING)

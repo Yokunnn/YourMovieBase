@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import ru.zakablukov.yourmoviebase.data.repositoryimpl.DatabaseRepositoryImpl
-import ru.zakablukov.yourmoviebase.data.repositoryimpl.MovieDetailsRepositoryImpl
+import ru.zakablukov.yourmoviebase.data.repositoryimpl.MovieRepositoryImpl
 import ru.zakablukov.yourmoviebase.data.repositoryimpl.TranslateRepositoryImpl
 import ru.zakablukov.yourmoviebase.data.util.Request
 import ru.zakablukov.yourmoviebase.domain.model.Movie
@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
-    private val movieDetailsRepositoryImpl: MovieDetailsRepositoryImpl,
+    private val movieRepositoryImpl: MovieRepositoryImpl,
     private val translateRepositoryImpl: TranslateRepositoryImpl,
     private val databaseRepositoryImpl: DatabaseRepositoryImpl,
 ) : ViewModel() {
@@ -64,7 +64,7 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private suspend fun getApiMovieById(id: Int) {
-        movieDetailsRepositoryImpl.getMovieById(id).collect { requestState ->
+        movieRepositoryImpl.getMovieById(id).collect { requestState ->
             when (requestState) {
                 is Request.Error -> _movieApiDetailsLoadState.emit(LoadState.ERROR)
                 is Request.Loading -> _movieApiDetailsLoadState.emit(LoadState.LOADING)

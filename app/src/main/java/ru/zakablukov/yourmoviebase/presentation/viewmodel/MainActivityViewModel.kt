@@ -10,14 +10,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import ru.zakablukov.yourmoviebase.data.repositoryimpl.AuthRepositoryImpl
 import ru.zakablukov.yourmoviebase.data.repositoryimpl.DatabaseRepositoryImpl
-import ru.zakablukov.yourmoviebase.data.repositoryimpl.GenresRepositoryImpl
+import ru.zakablukov.yourmoviebase.data.repositoryimpl.MovieRepositoryImpl
 import ru.zakablukov.yourmoviebase.data.util.Request
 import ru.zakablukov.yourmoviebase.presentation.enums.LoadState
 import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
-    private val genresRepositoryImpl: GenresRepositoryImpl,
+    private val movieRepositoryImpl: MovieRepositoryImpl,
     private val authRepositoryImpl: AuthRepositoryImpl,
     private val databaseRepositoryImpl: DatabaseRepositoryImpl,
 ) : ViewModel() {
@@ -32,7 +32,7 @@ class MainActivityViewModel @Inject constructor(
 
     fun loadOrRefreshGenres() {
         viewModelScope.launch(Dispatchers.IO) {
-            genresRepositoryImpl.getAllGenres().collect { requestState ->
+            movieRepositoryImpl.getAllGenres().collect { requestState ->
                 when (requestState) {
                     is Request.Error -> _apiGenresLoadState.emit(LoadState.ERROR)
                     is Request.Loading -> _apiGenresLoadState.emit(LoadState.LOADING)
