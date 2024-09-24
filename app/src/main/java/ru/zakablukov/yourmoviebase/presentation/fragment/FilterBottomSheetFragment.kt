@@ -23,7 +23,6 @@ import ru.zakablukov.yourmoviebase.domain.model.TranslateText
 import ru.zakablukov.yourmoviebase.presentation.adapter.GenreChipAdapter
 import ru.zakablukov.yourmoviebase.presentation.enums.LoadState
 import ru.zakablukov.yourmoviebase.presentation.viewmodel.GalleryViewModel
-import java.util.Locale
 
 @AndroidEntryPoint
 class FilterBottomSheetFragment : BottomSheetDialogFragment() {
@@ -82,10 +81,8 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
     private fun initApplyButton() {
         with(binding) {
             applyButton.setOnClickListener {
-                if (isTextValid()) {
-                    val rating = ratingRangeSlider.values.toString()
-                        .replace(REGEX_RATING_FIX_STRING, "")
-                        .replace(", ", "-")
+                if (galleryViewModel.isTextValid(yearEditText.text, lengthEditText.text)) {
+                    val rating = galleryViewModel.reformatRatingString(ratingRangeSlider.values.toString())
                     val year = yearEditText.text
                     val length = lengthEditText.text
                     galleryViewModel.applyFilters(
@@ -117,11 +114,8 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                             filterData.genres?.let { checkedGenres ->
                                 genreChipAdapter?.insertCheckedGenres(checkedGenres)
                             }
-                            filterData.rating?.let { rating ->
-                                val values = REGEX_RATING.findAll(rating).toList().map {
-                                    it.value.toFloat()
-                                }
-                                ratingRangeSlider.values = values
+                            filterData.rating?.let {
+                                ratingRangeSlider.values = galleryViewModel.reformatRatingToFloatValues(it)
                             }
                             filterData.year?.let {
                                 yearEditText.setText(it)
@@ -193,13 +187,11 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                     galleryViewModel.genresResult.collect { genres ->
                         if (genres.isNotEmpty()) {
                             genreChipAdapter?.update(genres.toMutableList())
-                            if (Locale.getDefault().language != "ru") {
-                                galleryViewModel.translateListRUtoEN(genres.map {
-                                    TranslateText(
-                                        GENRE, it.name
-                                    )
-                                })
-                            }
+                            galleryViewModel.tryTextLocalization(*genres.map {
+                                TranslateText(
+                                    GENRE, it.name
+                                )
+                            }.toTypedArray())
                         }
                     }
                 }
@@ -239,23 +231,10 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun isTextValid(): Boolean {
-        with(binding) {
-            val year = yearEditText.text
-            val length = lengthEditText.text
-            return (REGEX.matches(year.toString()) || year.isNullOrBlank()) &&
-                    (REGEX.matches(length.toString()) || length.isNullOrBlank())
-        }
-    }
-
     companion object {
         private const val GENRES_LOCAL_LOAD_TAG = "Local genres filters"
         private const val GENRES_API_LOAD_TAG = "Api genres filters"
         private const val TRANSLATION_TAG = "Text list translation"
         private const val GENRE = "Genre"
-
-        private val REGEX = Regex("\\d+|\\d+-\\d+")
-        private val REGEX_RATING = Regex("\\d+\\.\\d")
-        private val REGEX_RATING_FIX_STRING = Regex("\\[|\\]")
     }
 }

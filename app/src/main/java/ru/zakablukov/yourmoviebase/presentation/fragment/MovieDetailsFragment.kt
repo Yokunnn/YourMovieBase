@@ -23,7 +23,6 @@ import ru.zakablukov.yourmoviebase.domain.model.TranslateText
 import ru.zakablukov.yourmoviebase.presentation.adapter.PersonAdapterSmall
 import ru.zakablukov.yourmoviebase.presentation.enums.LoadState
 import ru.zakablukov.yourmoviebase.presentation.viewmodel.MovieDetailsViewModel
-import java.util.Locale
 
 @AndroidEntryPoint
 class MovieDetailsFragment : Fragment() {
@@ -96,20 +95,11 @@ class MovieDetailsFragment : Fragment() {
                                 .into(posterImageView)
                             movie?.let {
                                 it.genres.forEach { genre ->
-                                    if (Locale.getDefault().language != "ru") {
-                                        viewModel.translateRUtoEN(TranslateText(GENRE, genre.name))
-                                    } else {
+                                    if (!viewModel.tryTextLocalization(TranslateText(GENRE, genre.name))) {
                                         genreChipGroup.addView(createChip(genre.name))
                                     }
                                 }
-                                if (Locale.getDefault().language != "ru") {
-                                    viewModel.translateRUtoEN(
-                                        TranslateText(
-                                            DESCRIPTION,
-                                            it.description
-                                        )
-                                    )
-                                }
+                                viewModel.tryTextLocalization(TranslateText(DESCRIPTION, it.description))
                                 personAdapter?.update(it.persons.toMutableList())
                             }
                         }

@@ -1,5 +1,6 @@
 package ru.zakablukov.yourmoviebase.presentation.viewmodel
 
+import android.text.Editable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -19,6 +20,7 @@ import ru.zakablukov.yourmoviebase.domain.model.Genre
 import ru.zakablukov.yourmoviebase.domain.model.Movie
 import ru.zakablukov.yourmoviebase.domain.model.TranslateText
 import ru.zakablukov.yourmoviebase.presentation.enums.LoadState
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,7 +28,7 @@ class GalleryViewModel @Inject constructor(
     private val movieRepositoryImpl: MovieRepositoryImpl,
     private val translateRepositoryImpl: TranslateRepositoryImpl,
     private val databaseRepositoryImpl: DatabaseRepositoryImpl,
-) : ViewModel() {
+) : ViewModel(), LocalizedViewModel {
 
     private val _filterData = MutableStateFlow(FilterData())
     val filterData: StateFlow<FilterData> = _filterData
@@ -99,7 +101,7 @@ class GalleryViewModel @Inject constructor(
         }
     }
 
-    fun translateListRUtoEN(list: List<TranslateText>) {
+    private fun translateListRUtoEN(list: List<TranslateText>) {
         viewModelScope.launch(Dispatchers.IO) {
             translateRepositoryImpl.translateListRUtoEN(list).collect { requestState ->
                 when (requestState) {
@@ -112,5 +114,33 @@ class GalleryViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun isTextValid(year: Editable?, length: Editable?): Boolean =
+        (REGEX.matches(year.toString()) || year.isNullOrBlank()) &&
+                (REGEX.matches(length.toString()) || length.isNullOrBlank())
+
+    fun reformatRatingString(rating: String) = rating
+        .replace(REGEX_RATING_FIX_STRING, "")
+        .replace(", ", "-")
+
+    fun reformatRatingToFloatValues(rating: String) =
+        REGEX_RATING.findAll(rating).toList().map {
+            it.value.toFloat()
+        }
+
+    override fun tryTextLocalization(vararg translateTexts: TranslateText): Boolean {
+        if (Locale.getDefault().language != "ru") {
+            translateListRUtoEN(translateTexts.toList())
+            return true
+        } else {
+            return false
+        }
+    }
+
+    companion object {
+        private val REGEX = Regex("\\d+|\\d+-\\d+")
+        private val REGEX_RATING = Regex("\\d+\\.\\d")
+        private val REGEX_RATING_FIX_STRING = Regex("\\[|\\]")
     }
 }

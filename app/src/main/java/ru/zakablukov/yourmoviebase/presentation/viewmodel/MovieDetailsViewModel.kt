@@ -14,6 +14,7 @@ import ru.zakablukov.yourmoviebase.data.util.Request
 import ru.zakablukov.yourmoviebase.domain.model.Movie
 import ru.zakablukov.yourmoviebase.domain.model.TranslateText
 import ru.zakablukov.yourmoviebase.presentation.enums.LoadState
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,7 +22,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val movieRepositoryImpl: MovieRepositoryImpl,
     private val translateRepositoryImpl: TranslateRepositoryImpl,
     private val databaseRepositoryImpl: DatabaseRepositoryImpl,
-) : ViewModel() {
+) : ViewModel(), LocalizedViewModel {
 
     private val _movieDetailsResult = MutableStateFlow<Movie?>(null)
     val movieDetailsResult: StateFlow<Movie?> = _movieDetailsResult
@@ -120,7 +121,7 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    fun translateRUtoEN(translateText: TranslateText) {
+    private fun translateRUtoEN(translateText: TranslateText) {
         viewModelScope.launch(Dispatchers.IO) {
             translateRepositoryImpl.translateRUtoEN(translateText).collect { requestState ->
                 when (requestState) {
@@ -132,6 +133,17 @@ class MovieDetailsViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    override fun tryTextLocalization(vararg translateTexts: TranslateText): Boolean {
+        if (Locale.getDefault().language != "ru") {
+            for (text in translateTexts){
+                translateRUtoEN(text)
+            }
+            return true
+        } else {
+            return false
         }
     }
 }
