@@ -3,7 +3,6 @@ package ru.zakablukov.yourmoviebase.presentation.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import okhttp3.internal.toImmutableList
 import ru.zakablukov.yourmoviebase.databinding.ItemGenreChipBinding
 import ru.zakablukov.yourmoviebase.domain.model.Genre
 import java.util.Locale
@@ -68,7 +67,7 @@ class GenreChipAdapter : RecyclerView.Adapter<GenreChipAdapter.GenreViewHolder>(
         notifyItemRangeInserted(itemsEN.size - 1, data.size)
     }
 
-    fun getCheckedGenres() = checked.toImmutableList().map { it.name }
+    fun getCheckedGenres() = checked.map { it.name }
 
     fun insertCheckedGenres(checkedGenres: List<String>) {
         checked.clear()
