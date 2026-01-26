@@ -7,6 +7,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
     alias(libs.plugins.googleGmsGoogleServices)
+    alias(libs.plugins.composeCompiler)
 }
 
 android {
@@ -40,6 +41,7 @@ android {
     buildFeatures {
         buildConfig = true
         viewBinding = true
+        compose = true
     }
     buildTypes {
         release {
@@ -76,6 +78,19 @@ dependencies {
 
     //ViewBinding
     implementation(libs.viewbindingpropertydelegate.noreflection)
+
+    //Compose
+    val composeBom = platform("androidx.compose:compose-bom:2026.01.00")
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.ui.tooling.preview)
+    debugImplementation(libs.androidx.ui.tooling)
+    implementation(libs.androidx.adaptive)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.runtime.livedata)
+    implementation(libs.androidx.runtime.rxjava2)
 
     //Hilt
     implementation(libs.hilt.android)

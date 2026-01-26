@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.galleryFragment || destination.id == R.id.favouritesFragment) {
+            if (destination.id == R.id.galleryFragment || destination.id == R.id.favouritesFragment || destination.id == R.id.profileFragment) {
                 binding.bottomNavigation.visibility = View.VISIBLE
             } else {
                 binding.bottomNavigation.visibility = View.GONE
@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeCurrentUser() {
         lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(androidx.lifecycle.Lifecycle.State.STARTED) {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.userResult.collect { user ->
                     user?.let {
                         viewModel.requestEmailVerification()

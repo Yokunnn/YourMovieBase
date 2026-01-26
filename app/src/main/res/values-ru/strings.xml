@@ -43,4 +43,8 @@
     <string name="snack_error_load_genres">Ошибка при загрузке жанров по сети</string>
     <string name="snack_details_load_success">Детали фильма успешно загружены</string>
     <string name="snack_details_load_error">Ошибка при загрузке деталей фильма</string>
+    <string name="text_logout">Выйти</string>
+    <string name="filler_email">email@mail.com</string>
+    <string name="text_profile">Профиль</string>
+    <string name="text_your_email">Ваша почта</string>
 </resources>

@@ -42,4 +42,8 @@
     <string name="snack_error_load_genres">Error trying load genres</string>
     <string name="snack_details_load_success">Details successfully loaded</string>
     <string name="snack_details_load_error">Error while loading details</string>
+    <string name="text_logout">Logout</string>
+    <string name="filler_email">email@mail.com</string>
+    <string name="text_profile">Profile</string>
+    <string name="text_your_email">Your email</string>
 </resources>
