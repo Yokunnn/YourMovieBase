@@ -29,7 +29,7 @@ class MovieDetailsFragment : Fragment() {
 
     private val binding by viewBinding(FragmentMovieDetailsBinding::bind)
     private val viewModel: MovieDetailsViewModel by viewModels()
-    private var personAdapter: PersonAdapterSmall? = null
+    private lateinit var personAdapter: PersonAdapterSmall
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -100,7 +100,7 @@ class MovieDetailsFragment : Fragment() {
                                     }
                                 }
                                 viewModel.tryTextLocalization(TranslateText(DESCRIPTION, it.description))
-                                personAdapter?.update(it.persons.toMutableList())
+                                personAdapter.update(it.persons.toMutableList())
                             }
                         }
                     }
