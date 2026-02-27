@@ -8,7 +8,7 @@ interface GalleryService {
 
     @GET(GET_MOVIES_REQUEST)
     suspend fun getMovies(
-        @Query(QUERY_PAGE) page: Int,
+        @Query(QUERY_NEXT) next: String?,
         @Query(QUERY_LIMIT) limit: Int,
         @Query(QUERY_RATING) rating: List<String>?,
         @Query(QUERY_YEAR) year: List<String>?,
@@ -22,8 +22,8 @@ interface GalleryService {
     ): MoviesResponse
 
     companion object {
-        private const val GET_MOVIES_REQUEST = "v1.4/movie"
-        private const val QUERY_PAGE = "page"
+        private const val GET_MOVIES_REQUEST = "v1.5/movie"
+        private const val QUERY_NEXT = "next"
         private const val QUERY_LIMIT = "limit"
         private const val QUERY_YEAR = "year"
         private const val QUERY_RATING = "rating.imdb"

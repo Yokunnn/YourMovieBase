@@ -10,22 +10,17 @@ import javax.inject.Inject
 
 class GalleryPagingSource @Inject constructor(
     private val galleryService: GalleryService
-) : PagingSource<Int, Movie>() {
+) : PagingSource<String, Movie>() {
 
     var filterData = FilterData()
 
-    override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
-        return state.anchorPosition?.let {
-            state.closestPageToPosition(it)?.prevKey?.plus(1)
-                ?: state.closestPageToPosition(it)?.nextKey?.minus(1)
-        }
-    }
+    override fun getRefreshKey(state: PagingState<String, Movie>): String? = null
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
+    override suspend fun load(params: LoadParams<String>): LoadResult<String, Movie> {
         return try {
-            val page = params.key ?: 1
+            val next = params.key
             val response = galleryService.getMovies(
-                page,
+                next,
                 params.loadSize,
                 filterData.rating?.let { listOf(it) },
                 filterData.year?.let { listOf(it) },
@@ -35,8 +30,8 @@ class GalleryPagingSource @Inject constructor(
             val movies = response.toDomain()
             LoadResult.Page(
                 movies,
-                if (page == 1) null else page - 1,
-                if (movies.isEmpty()) null else page + 1
+                response.prev,
+                response.next
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

@@ -5,12 +5,16 @@ import com.google.gson.annotations.SerializedName
 data class MoviesResponse(
     @SerializedName("docs")
     val movies: List<SingleMovieResponse>,
-    @SerializedName("total")
-    val total: Int,
     @SerializedName("limit")
     val limit: Int,
-    @SerializedName("page")
-    val page: Int,
-    @SerializedName("pages")
-    val pages: Int
+    @SerializedName("next")
+    val next: String,
+    @SerializedName("prev")
+    val prev: String,
+    @SerializedName("hasNext")
+    val hasNext: Boolean,
+    @SerializedName("hasPrev")
+    val hasPrev: Boolean,
+    @SerializedName("total")
+    val total: Int,
 )
