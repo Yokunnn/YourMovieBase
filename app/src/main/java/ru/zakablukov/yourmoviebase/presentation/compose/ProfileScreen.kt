@@ -1,5 +1,7 @@
 package ru.zakablukov.yourmoviebase.presentation.compose
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,17 +13,62 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.zakablukov.yourmoviebase.R
+import ru.zakablukov.yourmoviebase.presentation.enums.LoadState
+import ru.zakablukov.yourmoviebase.presentation.viewmodel.ProfileViewModel
 
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(
+    viewModel: ProfileViewModel,
+    onSignOutNav: () -> Unit
+) {
+
+    val signOutLoadState by viewModel.signOutLoadState.collectAsStateWithLifecycle()
+    val user by viewModel.userResult.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) { viewModel.getCurrentUser() }
+
+    LaunchedEffect(signOutLoadState) {
+        when (signOutLoadState) {
+            LoadState.LOADING -> Log.d("signout", "loading")
+            LoadState.SUCCESS -> {
+                Log.d("signout", "success")
+                onSignOutNav()
+            }
+
+            LoadState.ERROR -> {
+                Log.d("signout", "error")
+                Toast.makeText(
+                    context,
+                    "Error while trying to sign out",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            null -> Log.d("signout", "init")
+        }
+    }
+
+    ProfileScreenContent(user?.email, { viewModel.signOut() })
+}
+
+@Composable
+fun ProfileScreenContent(
+    email: String?,
+    onSignOutClick: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -36,15 +83,13 @@ fun ProfileScreen() {
         )
         Spacer(Modifier.height(8.dp))
         Text(
-            stringResource(R.string.filler_email),
+            email ?: stringResource(R.string.filler_email),
             color = Color.White,
             style = MaterialTheme.typography.bodyLarge
         )
         Spacer(Modifier.height(32.dp))
         Button(
-            onClick = {
-
-            },
+            onClick = onSignOutClick,
             colors = ButtonDefaults.buttonColors(
                 containerColor = colorResource(R.color.yellow),
                 contentColor = colorResource(R.color.black)
@@ -63,6 +108,6 @@ fun ProfileScreen() {
 @Composable
 fun ProfileScreenPreview() {
     MaterialTheme {
-        ProfileScreen()
+        ProfileScreenContent(null, {})
     }
 }

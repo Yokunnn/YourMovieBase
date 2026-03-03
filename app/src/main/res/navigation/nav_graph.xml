@@ -68,7 +68,7 @@
         android:name="ru.zakablukov.yourmoviebase.presentation.fragment.ProfileFragment"
         android:label="ProfileFragment" >
         <action
-            android:id="@+id/action_profileFragment3_to_authFragment"
+            android:id="@+id/action_profileFragment_to_authFragment"
             app:destination="@id/authFragment" />
         <action
             android:id="@+id/action_profileFragment_to_galleryFragment"
